@@ -6,9 +6,6 @@ import {GraphQLSchema} from "graphql";
 import {UserResolver} from "./src/controller/UserResolver";
 import { config } from "./src/config/environnement.dev";
 
-mongoose.set("debug", true);
-require("dotenv").config();
-
 export async function startServer(config:any):Promise<ApolloServer>{
 
 const schema:GraphQLSchema = await buildSchema({resolvers:[UserResolver]});
