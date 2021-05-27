@@ -5,9 +5,7 @@ import {buildSchema} from "type-graphql";
 import {GraphQLSchema} from "graphql";
 import {UserResolver} from "./src/controller/UserResolver";
 import { config } from "./src/config/environnement.dev";
-//import express, { Request, Response } from "express";
-//import cors from "cors";
-//import dotenv, { config } from "dotenv";
+
 mongoose.set("debug", true);
 require("dotenv").config();
 
@@ -32,26 +30,3 @@ console.log("mongodb started at uri:", config.uri);
 return server;
 
 }
-
-// Middleware
-//const app = express();
-
-//const bodyParser = require("body-parser");
-
-//app.use(express.json());
-//app.use(
-  //cors({ origin: `http://${process.env.API_CREDENTIALS}`, credentials: true }),
-//);
-
-
-//app.use(bodyParser.urlencoded({ extended: false }));
-
-//const routes = require("./src/routing/router");
-
-//app.use(routes);
-
-//app.listen(`${process.env.PORT}`, () => {
-  //console.log(
-    //"Server running at `http://${process.env.HOST}:${process.env.PORT}`",
-  //);
-//});

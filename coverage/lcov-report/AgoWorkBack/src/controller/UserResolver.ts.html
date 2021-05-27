@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.44% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>47/64</span>
+                <span class='fraction'>64/64</span>
+            </div>
+        
+            
+            <div class='fl pad1y space-right2'>
+                <span class="strong">94.44% </span>
+                <span class="quiet">Branches</span>
+                <span class='fraction'>17/18</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
-                <span class="quiet">Branches</span>
-                <span class='fraction'>14/14</span>
-            </div>
-        
-            
-            <div class='fl pad1y space-right2'>
-                <span class="strong">57.14% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>4/7</span>
+                <span class='fraction'>7/7</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">73.44% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>47/64</span>
+                <span class='fraction'>64/64</span>
             </div>
         
             
@@ -55,7 +55,7 @@
             Press <em>n</em> or <em>j</em> to go to the next uncovered block, <em>b</em>, <em>p</em> or <em>k</em> for the previous block.
         </p>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -131,11 +131,11 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -165,23 +165,23 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span></td><td class="text"><pre class="prettyprint lang-js">import { Int, Resolver, Query, Arg, Mutation } from "type-graphql";
 import { User } from "../model/graphql/User";
@@ -193,12 +193,12 @@ export class UserResolver {
     // cette méthode est une query, çàd qu'elle va servir à la lecture de données
     // elle retourne un wilder ou null (en fonction de si l'id correspond bien à un document)
     @Query(returns =&gt; User, { nullable: true })
-    public <span class="fstat-no" title="function not covered" >async getUserById(@Arg("id", type =&gt; String) id: string) {</span>
-<span class="cstat-no" title="statement not covered" >        // si l'id n'existe pas, mongoose renvoie undefined, ce qui me permet </span>
-<span class="cstat-no" title="statement not covered" >        // de renvoyer null parce que, rappel: </span>
-<span class="cstat-no" title="statement not covered" >        // undefined || something ---  renvoie toujours something</span>
-<span class="cstat-no" title="statement not covered" >        return await UserModel.findById(id)||null;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    public async getUserById(@Arg("id", type =&gt; String) id: string) {
+        // si l'id n'existe pas, mongoose renvoie undefined, ce qui me permet 
+        // de renvoyer null parce que, rappel: 
+        // undefined || something ---  renvoie toujours something
+        return await UserModel.findById(id)<span class="branch-0 cbranch-no" title="branch not covered" >||null;</span>
+    }
 &nbsp;
     // cette méthode est une query, çàd qu'elle va servir à la lecture de données
     // elle retourne tous les documents de type Wilder
@@ -227,24 +227,24 @@ export class UserResolver {
     // cette méthode est une mutation, çàd qu'elle va servir à écrire /modifier/supprimer de la donnée
     // elle retourne le wilder mis à jour
     @Mutation(returns =&gt; User)
-    public <span class="fstat-no" title="function not covered" >async updateUser(</span>
-<span class="cstat-no" title="statement not covered" >        @Arg("id", type =&gt; String) id: number,</span>
-<span class="cstat-no" title="statement not covered" >        @Arg("firstname", type =&gt; String) firstname: string,</span>
-<span class="cstat-no" title="statement not covered" >        @Arg("lastname", type =&gt; String) lastname: string</span>
-<span class="cstat-no" title="statement not covered" >    ) {</span>
-<span class="cstat-no" title="statement not covered" >        const body: any = { firstname: firstname, lastname: lastname };</span>
-<span class="cstat-no" title="statement not covered" >        await UserModel.updateOne({ _id: id }, body);</span>
-<span class="cstat-no" title="statement not covered" >        return await UserModel.findById(id);</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    public async updateUser(
+        @Arg("id", type =&gt; String) id: number,
+        @Arg("firstname", type =&gt; String) firstname: string,
+        @Arg("lastname", type =&gt; String) lastname: string
+    ) {
+        const body: any = { firstname: firstname, lastname: lastname };
+        await UserModel.updateOne({ id: id }, body);
+        return body;
+    }
     
     // cette méthode est une mutation, çàd qu'elle va servir à écrire /modifier/supprimer de la donnée
     // elle retourne le wilder supprimé
     @Mutation(returns =&gt; User, { nullable: true })
-    public <span class="fstat-no" title="function not covered" >async deleteUser(@Arg("id", type =&gt; String) id: string) {</span>
-<span class="cstat-no" title="statement not covered" >        const user = await UserModel.findById(id);</span>
-<span class="cstat-no" title="statement not covered" >        await UserModel.deleteOne({ _id: id });</span>
-<span class="cstat-no" title="statement not covered" >        return user;</span>
-<span class="cstat-no" title="statement not covered" >    }</span>
+    public async deleteUser(@Arg("id", type =&gt; String) id: string) {
+        const user = await UserModel.findById(id);
+        await UserModel.deleteOne({ id: id });
+        return user;
+    }
 &nbsp;
 }</pre></td></tr></table></pre>
 
@@ -253,7 +253,7 @@ export class UserResolver {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Thu May 27 2021 10:33:12 GMT+0200 (heure d’été d’Europe centrale)
+                at Thu May 27 2021 11:30:49 GMT+0200 (heure d’été d’Europe centrale)
             </div>
         </div>
         <script src="../../../prettify.js"></script>
