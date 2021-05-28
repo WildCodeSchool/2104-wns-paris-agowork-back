@@ -1,9 +1,10 @@
-// environnement
+import dotenv from "dotenv";
+require("dotenv").config();
 
 export const config:any = {
-    uri: "mongodb://127.0.0.1:27017/agowork", 
+    uri: `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}/${process.env.DB_DATABASE}`, 
     options:  {useNewUrlParser: true, useUnifiedTopology: true}, 
-    apolloPort: 4000, 
+    apolloPort: `${process.env.PORT}`, 
     autoListen: true, 
     verbose:true
 };
