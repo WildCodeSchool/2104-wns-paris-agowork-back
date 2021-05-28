@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import { startServer } from "../../server";
-import { config } from "../../src/Config/environnement.dev";
+import {startServer} from "../server";
+import { config }from "../config/environnement.dev";
 import { gql } from "apollo-server-core";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
@@ -14,6 +14,7 @@ const GET_ALL_USERS = gql`{
         lastname
         email
         town
+        picture
     }
 }`;
 const GET_USER_BY_ID = gql`
@@ -24,6 +25,7 @@ query GetUserById($id: String!){
         lastname
         email
         town
+        picture
     }
 }`;
 
@@ -32,19 +34,22 @@ mutation CreateUser(
     $firstname: String!, 
     $lastname: String!, 
     $email: String!, 
-    $town: String!
+    $town: String!,
+    $picture: String!
     ) {
     createUser(
         firstname: $firstname, 
         lastname: $lastname, 
         email: $email, 
-        town: $town
+        town: $town,
+        picture: $picture,
         ) { 
       id
       firstname
       lastname
       email
       town
+      picture
     }
   }
 `;
@@ -55,20 +60,23 @@ mutation UpdateUser(
     $firstname: String!, 
     $lastname: String!, 
     $email: String!,
-    $town: String!
+    $town: String!,
+    $picture: String!
     ) {
     updateUser(
         id: $id, 
         firstname: $firstname, 
         lastname: $lastname, 
         email: $email,
-        town: $town
+        town: $town,
+        picture: $picture,
         ) {
       id
       firstname
       lastname
       email
       town
+      picture
     }
   }
 `;
@@ -81,6 +89,7 @@ mutation DeleteUser($id: String!) {
       lastname
       email
       town
+      picture
     }
   }
 `;
@@ -140,7 +149,8 @@ describe(
                     firstname: "Ben", 
                     lastname: "Basri", 
                     email: "ben@user.com",
-                    town: "Paris"
+                    town: "Paris",
+                    picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
                 }
                 const { query, mutate } = createTestClient(apollo);
                 const res = await mutate(
@@ -165,7 +175,8 @@ describe(
                     firstname: "Ben", 
                     lastname: "Basri", 
                     email: "ben@user.com",
-                    town: "Paris"
+                    town: "Paris",
+                    picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
                 }
                 const { query, mutate } = createTestClient(apollo);
                 const res = await mutate(
@@ -196,7 +207,8 @@ describe(
                     firstname: "Ben", 
                     lastname: "Basri", 
                     email: "ben@user.com",
-                    town: "Paris"
+                    town: "Paris",
+                    picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
                 };
 
                 const res = await mutate(
@@ -211,7 +223,8 @@ describe(
                     firstname: "Lisa", 
                     lastname: "Pommier", 
                     email: "lisa@user.com",
-                    town: "Marseille"
+                    town: "Marseille",
+                    picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
                 };
 
                 const res2 = await mutate(
@@ -238,7 +251,8 @@ describe(
                     firstname: "Lisa", 
                     lastname: "Pommier", 
                     email: "lisa@user.com",
-                    town: "Paris"
+                    town: "Paris",
+                    picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
                 };
                 const res = await mutate(
                     {

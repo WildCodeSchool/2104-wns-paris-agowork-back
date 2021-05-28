@@ -26,6 +26,4 @@ export class User {
     @Field(type=>String, {nullable: true})
     picture:string = "";
 
-    // @Field(type => Role)
-    // role!: Role;
 }

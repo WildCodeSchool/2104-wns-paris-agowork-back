@@ -2,17 +2,17 @@
   "name": "agoworkback",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest",
     "init": "jest --init",
-    "start": "nodemon --exec ts-node server.ts",
+    "start": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
     "lint": "eslint . ",
     "lint-fix": "eslint --fix . ",
-    "dev": "ts-node-dev --transpile-only --respawn ./scr/server.ts",
-    "prod": "tsc && node ./built/src/server.js",
-    "debug": "tsc && node --inspect ./built/src/server.js"
+    "dev": "ts-node-dev --transpile-only --respawn scr/index.ts",
+    "prod": "tsc && node ./built/src/index.js",
+    "debug": "tsc && node --inspect ./built/src/index.js"
   },
   "author": "",
   "license": "ISC",
