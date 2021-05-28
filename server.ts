@@ -1,33 +1,39 @@
 import "reflect-metadata";
+import express from "express";
+import cors from 'cors'
 import mongoose from "mongoose";
-import {ApolloServer} from "apollo-server";
+import {ApolloServer} from "apollo-server-express";
 import {buildSchema} from "type-graphql";
 import {GraphQLSchema} from "graphql";
 import {UserResolver} from "./src/Controllers/UserController/UserResolver";
-// import { config } from "./src/Config/environnement.dev";
+import config  from "./src/config/environnement.dev";
 import dotenv from "dotenv";
 require("dotenv").config();
 
 mongoose.set("debug", true);
 
+const startserver = async () => {
+  config()
+  const schema:GraphQLSchema = await buildSchema({
+    resolvers: [UserResolver],
+    emitSchemaFile: true,
+    validate: false,
+  })
 
-export async function startServer(config:any):Promise<ApolloServer>{
+  const server = new ApolloServer({ schema })
+  await server.start()
 
-const schema:GraphQLSchema = await buildSchema({resolvers:[UserResolver]});
-const server:ApolloServer = new ApolloServer({schema});
+  const app = express()
+  app.use(cors())
 
-if ( config.autoListen ) {
-await server.listen(`${process.env.PORT}`);
-  
-  if(true)
-  console.log(`Apollo server started at http://${process.env.HOST}:${process.env.PORT}`);
+  server.applyMiddleware({ app })
+
+  app.listen(`${process.env.PORT}`)
+  console.log(
+    console.log(
+      `Server ready  at http://localhost:${process.env.PORT}`
+  )
+  )
+  return { server, app }
 }
-
-// database
-await mongoose.connect(config.uri, config.options);
-
-if(config.verbose)
-console.log("mongodb started at uri:", config.uri);
-
-return server;
-}
+startserver()

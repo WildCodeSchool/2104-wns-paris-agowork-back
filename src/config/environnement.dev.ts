@@ -1,10 +1,20 @@
 import dotenv from "dotenv";
 require("dotenv").config();
+import mongoose from 'mongoose'
 
-export const config:any = {
-    uri: `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}/${process.env.DB_DATABASE}`, 
-    options:  {useNewUrlParser: true, useUnifiedTopology: true}, 
-    apolloPort: `${process.env.PORT}`, 
-    autoListen: true, 
-    verbose:true
-};
+const config = async (): Promise<void> => {
+  try {
+    const uri = `mongodb://${process.env.DB_USER}:${process.env.DB_PASS}/${process.env.DB_DATABASE}`
+    const connect = await mongoose.connect(uri, {
+      useCreateIndex: true,
+      useUnifiedTopology: true,
+      useNewUrlParser: true,
+      useFindAndModify: false,
+    })
+    console.log('DB connected')
+  } catch (error) {
+    console.log(error)
+    process.exit(1)
+  }
+}
+export default config

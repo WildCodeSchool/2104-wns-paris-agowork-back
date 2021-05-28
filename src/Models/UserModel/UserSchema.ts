@@ -7,11 +7,11 @@ const UserSchema = new Schema({
   email: String,
   town: String,
   picture: String,
-  role: {
-    type: String,
-    enum : ['USER', 'ADMIN', 'TEACHER'],
-    default: 'USER'
-  },
+  // role: {
+  //   type: String,
+  //   enum : ['USER', 'ADMIN', 'TEACHER'],
+  //   default: 'USER'
+  // },
 });
 
 const model: mongoose.Model<any> = mongoose.model("user", UserSchema);
