@@ -4,8 +4,6 @@ import {ApolloServer} from "apollo-server";
 import {buildSchema} from "type-graphql";
 import {GraphQLSchema} from "graphql";
 import {UserResolver} from "./Controllers/UserController/UserResolver";
-import dotenv from "dotenv";
-require("dotenv").config();
 
 mongoose.set("debug", true);
 

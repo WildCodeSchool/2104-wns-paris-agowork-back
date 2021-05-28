@@ -1,6 +1,6 @@
 TN:
 SF:src/server.ts
-FN:12,startServer
+FN:10,startServer
 FNF:1
 FNH:1
 FNDA:1,startServer
@@ -34,11 +34,9 @@ DA:27,1
 DA:28,1
 DA:29,1
 DA:30,1
-DA:31,1
-DA:32,1
-LF:32
-LH:32
-BRDA:12,0,0,1
+LF:30
+LH:30
+BRDA:10,0,0,1
 BRF:1
 BRH:1
 end_of_record
@@ -246,8 +244,11 @@ DA:4,1
 DA:5,1
 DA:6,1
 DA:7,1
-LF:7
-LH:7
+DA:8,1
+DA:9,1
+DA:10,1
+LF:10
+LH:10
 BRF:0
 BRH:0
 end_of_record
