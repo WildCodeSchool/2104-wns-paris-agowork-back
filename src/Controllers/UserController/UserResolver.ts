@@ -1,6 +1,6 @@
 import { Int, Resolver, Query, Arg, Mutation } from "type-graphql";
-import { User } from "../model/graphql/User";
-import UserModel from "../model/UserModel";
+import { User } from "../../Models/UserModel/UserTypeGraphql";
+import UserModel from "../../Models/UserModel/UserSchema";
 
 @Resolver(User)
 export class UserResolver {
@@ -18,12 +18,18 @@ export class UserResolver {
     @Mutation(returns => User)
     public async createUser(
         @Arg("firstname", type => String) firstname: string,
-        @Arg("lastname", type => String) lastname: string
+        @Arg("lastname", type => String) lastname: string,
+        @Arg("email", type => String) email: string,
+        @Arg("town", type => String) town: string,
+        @Arg("picture", type => String) picture: string
     ) {
         await UserModel.init();
         const body: any = {
             firstname: firstname,
             lastname: lastname,
+            email: email, 
+            town: town,
+            picture: picture,
         };
         const model = new UserModel(body);
         const result = await model.save();
@@ -34,9 +40,18 @@ export class UserResolver {
     public async updateUser(
         @Arg("id", type => String) id: number,
         @Arg("firstname", type => String) firstname: string,
-        @Arg("lastname", type => String) lastname: string
+        @Arg("lastname", type => String) lastname: string,
+        @Arg("email", type => String) email: string,
+        @Arg("town", type => String) town: string,
+        @Arg("picture", type => String) picture: string
     ) {
-        const body: any = { firstname: firstname, lastname: lastname };
+        const body: any = { 
+            firstname: firstname, 
+            lastname: lastname, 
+            email: email, 
+            town: town, 
+            picture: picture,
+        };
         await UserModel.updateOne({ id: id }, body);
         return body;
     }

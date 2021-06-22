@@ -2,22 +2,24 @@
   "name": "agoworkback",
   "version": "1.0.0",
   "description": "",
-  "main": "src/server.ts",
+  "main": "src/index.ts",
   "scripts": {
     "test": "jest",
     "init": "jest --init",
-    "start": "nodemon --exec ts-node server.ts",
+    "start": "nodemon --exec ts-node src/index.ts",
     "build": "tsc",
     "lint": "eslint . ",
     "lint-fix": "eslint --fix . ",
-    "dev": "ts-node-dev --transpile-only --respawn ./scr/server.ts",
-    "prod": "tsc && node ./built/src/server.js",
-    "debug": "tsc && node --inspect ./built/src/server.js"
+    "dev": "ts-node-dev --transpile-only --respawn scr/index.ts",
+    "prod": "tsc && node ./built/src/index.js",
+    "debug": "tsc && node --inspect ./built/src/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/express": "^4.17.12",
     "apollo-server": "^2.23.0",
+    "apollo-server-express": "^2.25.0",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "graphql": "^15.5.0",
@@ -25,7 +27,6 @@
     "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
-    "@types/express": "^4.17.11",
     "@types/jest": "^26.0.23",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
