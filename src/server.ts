@@ -3,13 +3,13 @@ import mongoose from "mongoose";
 import {ApolloServer} from "apollo-server";
 import {buildSchema} from "type-graphql";
 import {GraphQLSchema} from "graphql";
-import {UserResolver} from "./Controllers/UserController/UserResolver";
+import {UserResolver} from "./Controllers/UserController/userResolver";
 
 //mongoose.set("debug", true);
 
 export async function startServer(config:any):Promise<ApolloServer>{
 
-  const schema:GraphQLSchema = await buildSchema({resolvers:[UserResolver]});
+  const schema:GraphQLSchema = await buildSchema({resolvers:[`${__dirname}/Controllers/**/*.{ts,js}`]});
   const server:ApolloServer = new ApolloServer({schema});
   
   if ( config.autoListen ) {

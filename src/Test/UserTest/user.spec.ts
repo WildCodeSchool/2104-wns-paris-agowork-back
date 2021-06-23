@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import {startServer} from "../server";
-import { config }from "../config/environnement.dev";
+import {startServer} from "../../server";
+import { config }from "../../Config/environnement.dev";
 import { gql } from "apollo-server-core";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
@@ -35,7 +35,8 @@ mutation CreateUser(
     $lastname: String!, 
     $email: String!, 
     $town: String!,
-    $picture: String!
+    $picture: String!,
+    $password: String!
     ) {
     createUser(
         firstname: $firstname, 
@@ -43,6 +44,7 @@ mutation CreateUser(
         email: $email, 
         town: $town,
         picture: $picture,
+        password: $password
         ) { 
       id
       firstname
@@ -69,9 +71,8 @@ mutation UpdateUser(
         lastname: $lastname, 
         email: $email,
         town: $town,
-        picture: $picture,
+        picture: $picture
         ) {
-      id
       firstname
       lastname
       email
@@ -121,13 +122,9 @@ describe(
 
         afterAll(
             async () => {
-
                 if (apollo !== null)
                     await apollo.stop();
-
-
                 await mongo.stop();
-
                 await mongoose.disconnect();
             }
         );
@@ -149,6 +146,7 @@ describe(
                     firstname: "Ben", 
                     lastname: "Basri", 
                     email: "ben@user.com",
+                    password: "secretPass",
                     town: "Paris",
                     picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
                 }
@@ -164,6 +162,7 @@ describe(
                 expect(res.data.createUser.lastname).toEqual(data.lastname);
                 expect(res.data.createUser.email).toEqual(data.email);
                 expect(res.data.createUser.town).toEqual(data.town);
+                expect(res.data.createUser.picture).toEqual(data.picture);
             }
         );
 
@@ -174,6 +173,7 @@ describe(
                 const data = { 
                     firstname: "Ben", 
                     lastname: "Basri", 
+                    password: "secretPass",
                     email: "ben@user.com",
                     town: "Paris",
                     picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
@@ -206,6 +206,7 @@ describe(
                 const data = { 
                     firstname: "Ben", 
                     lastname: "Basri", 
+                    password: "secretPass",
                     email: "ben@user.com",
                     town: "Paris",
                     picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
@@ -224,20 +225,21 @@ describe(
                     lastname: "Pommier", 
                     email: "lisa@user.com",
                     town: "Marseille",
-                    picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
+                    picture: "https://www.pngkey.com/png/detail/114-1199878_setting-user-avatar-in-specific-size-without-breaking.png"
                 };
-
+            
                 const res2 = await mutate(
                     {
                         query: UPDATE_USER,
                         variables: updateData
                     }
                 );
-
+                console.log(res2.data.updateUser);
                 expect(res2.data.updateUser.firstname).toEqual(updateData.firstname);
                 expect(res2.data.updateUser.lastname).toEqual(updateData.lastname);
                 expect(res2.data.updateUser.email).toEqual(updateData.email);
                 expect(res2.data.updateUser.town).toEqual(updateData.town);
+                expect(res2.data.updateUser.picture).toEqual(updateData.picture);
             }
         );
 
@@ -251,6 +253,7 @@ describe(
                     firstname: "Lisa", 
                     lastname: "Pommier", 
                     email: "lisa@user.com",
+                    password: "secretPass",
                     town: "Paris",
                     picture: "https://www.pngkey.com/png/detail/114-1149878_setting-user-avatar-in-specific-size-without-breaking.png"
                 };
@@ -272,6 +275,7 @@ describe(
                 expect(res2.data.deleteUser.lastname).toEqual(data.lastname);
                 expect(res2.data.deleteUser.email).toEqual(data.email);
                 expect(res2.data.deleteUser.town).toEqual(data.town);
+                expect(res2.data.deleteUser.picture).toEqual(data.picture);
             }
         );
 

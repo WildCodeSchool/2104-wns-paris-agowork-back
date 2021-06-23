@@ -1,4 +1,5 @@
-import { config } from "./config/environnement.dev";
+import "reflect-metadata";
+import { config } from "./Config/environnement.dev";
 import { startServer } from "./server";
 
 startServer(config);

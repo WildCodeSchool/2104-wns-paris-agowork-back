@@ -1,27 +1,28 @@
 import { Int, Resolver, Query, Arg, Mutation } from "type-graphql";
-import { User } from "../../Models/UserModel/UserTypeGraphql";
-import UserModel from "../../Models/UserModel/UserSchema";
+import { User } from "../../Models/UserModel/userSchema";
+import { UserModel } from "../../Models/UserModel/userSchema";
 
 @Resolver(User)
 export class UserResolver {
 
-    @Query(returns => User, { nullable: true })
-    public async getUserById(@Arg("id", type => String) id: string) {
+    @Query(() => User, { nullable: true })
+    public async getUserById(@Arg("id", () => String) id: string) {
         return await UserModel.findById(id)||null;
     }
 
-    @Query(returns => [User])
+    @Query(() => [User])
     public async getAllUsers() {
         return await UserModel.find();
     }
 
-    @Mutation(returns => User)
+    @Mutation(() => User)
     public async createUser(
-        @Arg("firstname", type => String) firstname: string,
-        @Arg("lastname", type => String) lastname: string,
-        @Arg("email", type => String) email: string,
-        @Arg("town", type => String) town: string,
-        @Arg("picture", type => String) picture: string
+        @Arg("firstname", () => String) firstname: string,
+        @Arg("lastname", () => String) lastname: string,
+        @Arg("email", () => String) email: string,
+        @Arg("town", () => String) town: string,
+        @Arg("picture", () => String) picture: string,
+        @Arg("password", () => String) password: string
     ) {
         await UserModel.init();
         const body: any = {
@@ -30,20 +31,21 @@ export class UserResolver {
             email: email, 
             town: town,
             picture: picture,
+            password: password,
         };
         const model = new UserModel(body);
         const result = await model.save();
         return result;
     }
 
-    @Mutation(returns => User)
+    @Mutation(() => User)
     public async updateUser(
-        @Arg("id", type => String) id: number,
-        @Arg("firstname", type => String) firstname: string,
-        @Arg("lastname", type => String) lastname: string,
-        @Arg("email", type => String) email: string,
-        @Arg("town", type => String) town: string,
-        @Arg("picture", type => String) picture: string
+        @Arg("id", () => String) id: string,
+        @Arg("firstname", () => String) firstname: string,
+        @Arg("lastname", () => String) lastname: string,
+        @Arg("email", () => String) email: string,
+        @Arg("town", () => String) town: string,
+        @Arg("picture", () => String) picture: string
     ) {
         const body: any = { 
             firstname: firstname, 
@@ -56,11 +58,10 @@ export class UserResolver {
         return body;
     }
     
-    @Mutation(returns => User, { nullable: true })
-    public async deleteUser(@Arg("id", type => String) id: string) {
+    @Mutation(() => User, { nullable: true })
+    public async deleteUser(@Arg("id", () => String) id: string) {
         const user = await UserModel.findById(id);
         await UserModel.deleteOne({ id: id });
         return user;
     }
-
 }
