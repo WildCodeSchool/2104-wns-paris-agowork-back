@@ -3,4 +3,4 @@ START PROJECT
  - npm start 
 
 RUN TEST
- - npm run dev
+ - npm run test

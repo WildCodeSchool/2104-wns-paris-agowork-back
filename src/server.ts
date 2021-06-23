@@ -5,7 +5,7 @@ import {buildSchema} from "type-graphql";
 import {GraphQLSchema} from "graphql";
 import {UserResolver} from "./Controllers/UserController/UserResolver";
 
-mongoose.set("debug", true);
+//mongoose.set("debug", true);
 
 export async function startServer(config:any):Promise<ApolloServer>{
 
