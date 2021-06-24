@@ -29,14 +29,14 @@ jobs:
         id: docker_build
         uses: docker/build-push-action@v2
         with:
-          context: ./
+          context: ../2104-wns-paris-agowork-front
           file: ./dockerfile
           push: true
           tags: julienwillette/agowork-back:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-  test-front:
+  test-back:
     runs-on: ubuntu-latest
     steps:
       - 
