@@ -7,7 +7,7 @@ import { User } from "./userSchema";
 export class UserInput implements Partial<User> {
   @Field(() => String)
   @Length(1, 255)
-  firstname!: string | undefined;
+  firstname!: string;
 
   @Field(() => String)
   @Length(1, 255)

@@ -234,7 +234,7 @@ describe(
                         variables: updateData
                     }
                 );
-                console.log(res2.data.updateUser);
+             
                 expect(res2.data.updateUser.firstname).toEqual(updateData.firstname);
                 expect(res2.data.updateUser.lastname).toEqual(updateData.lastname);
                 expect(res2.data.updateUser.email).toEqual(updateData.email);

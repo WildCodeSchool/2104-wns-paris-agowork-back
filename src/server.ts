@@ -3,15 +3,30 @@ import mongoose from "mongoose";
 import {ApolloServer} from "apollo-server";
 import {buildSchema} from "type-graphql";
 import {GraphQLSchema} from "graphql";
-import {UserResolver} from "./Controllers/UserController/userResolver";
-
-//mongoose.set("debug", true);
+import { authChecker } from "./Utils/authChecker";
+const { getPayload } = require('./Utils/security');
 
 export async function startServer(config:any):Promise<ApolloServer>{
 
-  const schema:GraphQLSchema = await buildSchema({resolvers:[`${__dirname}/Controllers/**/*.{ts,js}`]});
-  const server:ApolloServer = new ApolloServer({schema});
+  const schema:GraphQLSchema = await buildSchema({
+    resolvers:[`${__dirname}/Resolvers/**/*.{ts,js}`],
+    authChecker,
+    authMode: "null",
+  });
+  // const server:ApolloServer = new ApolloServer({schema});
+
+  const server = new ApolloServer({
+    schema,
+    context: ({ req }) => {
+      // get the user token from the headers
+      const token = req.headers.authorization || '';
+      // try to retrieve a user with the token
+      const { payload: user, loggedIn } = getPayload(token);
   
+      // add the user to the context
+      return { user, loggedIn };
+    },
+  })
   if ( config.autoListen ) {
     await server.listen(config.apolloPort);
     
