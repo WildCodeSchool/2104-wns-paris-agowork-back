@@ -6,40 +6,21 @@ import {GraphQLSchema} from "graphql";
 import { authChecker } from "./Utils/authChecker";
 const { getPayload } = require('./Utils/security');
 
-export async function startServer(config:any):Promise<ApolloServer>{
+export default async function initServer(): Promise<void> {
+  try {
+    const server = new ApolloServer({
+      cors: true,
+      schema: await buildSchema({
+        resolvers: [`${__dirname}/Resolvers/**/*.{ts,js}`],
+        validate: false,
+      }),
+    });
 
-  const schema:GraphQLSchema = await buildSchema({
-    resolvers:[`${__dirname}/Resolvers/**/*.{ts,js}`],
-    authChecker,
-    authMode: "null",
-  });
-  // const server:ApolloServer = new ApolloServer({schema});
-
-  const server = new ApolloServer({
-    schema,
-    context: ({ req }) => {
-      // get the user token from the headers
-      const token = req.headers.authorization || '';
-      // try to retrieve a user with the token
-      const { payload: user, loggedIn } = getPayload(token);
-  
-      // add the user to the context
-      return { user, loggedIn };
-    },
-  })
-  if ( config.autoListen ) {
-    await server.listen(config.apolloPort);
-    
-    if(config.verbose)
-    console.log("Apollo server startd at http://localhost:"+config.apolloPort+"/");
+    const { url } = await server.listen();
+    // eslint-disable-next-line no-console
+    console.log(`🚀 Server ready at ${url}`);
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.log(err);
   }
-  
-  // database
-  await mongoose.connect(config.uri, config.options);
-  
-  if(config.verbose)
-  console.log("mongodb started at uri:", config.uri);
-  
-  return server;
-  
 }

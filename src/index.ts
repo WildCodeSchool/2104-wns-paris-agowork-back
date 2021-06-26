@@ -1,5 +1,6 @@
 import "reflect-metadata";
-import { config } from "./Config/environnement.dev";
-import { startServer } from "./server";
+import connectDB from "./Config/environnement.dev";
+import  initServer from "./server";
 
-startServer(config);
+connectDB();
+initServer();

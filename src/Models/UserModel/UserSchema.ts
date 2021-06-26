@@ -1,39 +1,30 @@
-import { Field, ID, ObjectType, registerEnumType } from "type-graphql";
+import { Field, ID, ObjectType } from "type-graphql";
 import { Prop, getModelForClass } from '@typegoose/typegoose';
-import { GraphQLEnumType, __EnumValue } from "graphql";
-
-export enum Role {
-    ADMIN = 'ADMIN',
-    TEACHER = 'TEACHER',
-    STUDENT = 'STUDENT',
-}
-
-registerEnumType(Role, {
-    name: "Role", // this one is mandatory
-});
+import { __EnumValue } from "graphql";
+import { Role } from "./EnumType";
 
 @ObjectType()
 export class User {
     @Field(() => ID)
     id!: string;
 
-    @Field(() => String)
+    @Field(() => String, { nullable: true })
     @Prop({ required: false })
-    token!: string;
+    token?: string;
 
     @Field(() => Role)
     @Prop({ enum: Role })
     role!: Role;
 
-    @Field(() => String)
+    @Field()
     @Prop({ trim: true, required: true })
     firstname!: string;
     
-    @Field(() => String)
+    @Field()
     @Prop({ trim: true, required: true })
     lastname!: string;
 
-    @Field(() => String, {nullable: true})
+    @Field()
     @Prop({ trim: true, required: true })
     email!: string;
 
