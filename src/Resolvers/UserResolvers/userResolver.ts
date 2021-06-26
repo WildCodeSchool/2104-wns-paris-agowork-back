@@ -46,7 +46,6 @@ export default class UserResolver {
     };
     const user = new UserModel(body);
     await user.save();
-    console.log(user)
     return user;
   }
 

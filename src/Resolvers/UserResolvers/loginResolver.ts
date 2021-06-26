@@ -6,45 +6,26 @@ import { Context } from "../../Config/context";
 import { AuthenticationError } from "apollo-server";
 const { getToken, encryptPassword, comparePassword } = require("../../Utils/security")
 
-@Resolver()
-export class LoginResolver {
+@Resolver(User)
+export default class LoginResolver {
   
-  @Mutation(() => User, { nullable: true })
+  @Mutation(() => User)
   async login(
     @Arg("email", () => String) email: string,
     @Arg("password", () => String) password: string,
     // @Ctx() ctx: Context
   ): Promise<User | null> {
-    const user = await UserModel.findOne({ where: { email } });
-    console.log(user)
+    const user = await UserModel.findOne({ email: email } );
     if (!user) {
       throw new Error('User not found');
     }
     const isMatch = await comparePassword(password, user.password)
     if (isMatch) {
-        const token = getToken(user)
-        return { ...user, token };
+      const token = getToken(user)
+      console.log(user)
+        return {...user} ;
     } else {
         throw new AuthenticationError("Wrong Password!")
     }
-    // const isPasswordValid = await bcrypt.compare(password, user.password);
-
-    // if (!isPasswordValid) {
-    //   return null;
-    // }
-
-    // ctx.req.session!.id = user.id;
-    // return user;
   }
-
-  // @Query(() => User)
-  //   public async me(
-  //     @Ctx() context: Context
-  //   ) {
-  //     if (context.loggedIn) {
-  //       return context.user
-  //   } else {
-  //       throw new AuthenticationError("Please Login Again!")
-  //   }
-  //   }
 }
