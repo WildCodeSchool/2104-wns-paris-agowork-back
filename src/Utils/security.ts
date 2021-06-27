@@ -21,7 +21,7 @@ const comparePassword = (password: any, hash: any) => new Promise(async (resolve
 })
 
 const getToken = (payload: any) => {
-    const token = jwt.sign(payload, config.secret, {
+    const token = jwt.sign(payload.toJSON(), config.secret, {
         expiresIn: 604800, // 1 Week
     })
     return token

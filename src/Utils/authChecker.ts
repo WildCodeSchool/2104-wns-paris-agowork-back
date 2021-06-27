@@ -1,9 +1,9 @@
+import { AuthenticationError } from "apollo-server-express";
 import { AuthChecker } from "type-graphql";
 import { Context } from "../Config/context";
-import { Role } from "../Models/UserModel/userSchema";
 
 // create auth checker function
-export const authChecker: AuthChecker<Context> = 
+export const authenticationChecker: AuthChecker<Context> = 
 ({ context: { user } }, role) => {
   if (role.length === 0) {
     // if `@Authorized()`, check only if user exists
@@ -12,6 +12,7 @@ export const authChecker: AuthChecker<Context> =
   // there are some roles defined now
 
   if (!user) {
+    // throw new AuthenticationError('Not authorized');
     // and if no user, restrict access
     return false;
   }

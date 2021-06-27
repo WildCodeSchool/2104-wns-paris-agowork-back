@@ -1,14 +1,11 @@
-import { Resolver, Query, Arg, Mutation, Authorized, ID } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Authorized, ID, Ctx } from "type-graphql";
 import { User } from "../../Models/UserModel/userSchema";
 import bcrypt from "bcryptjs";
 import { UserModel } from "../../Models/UserModel/userSchema";
 import { UserInput } from "../../Models/UserModel/userInput";
-import { Role } from "../../Models/UserModel/EnumType";
-const {
-  getToken,
-  encryptPassword,
-  comparePassword,
-} = require("../../Utils/security");
+import { Role } from "../../Models/UserModel/enumType";
+import { AuthenticationError } from "apollo-server-express";
+const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
 export default class UserResolver {
@@ -18,6 +15,20 @@ export default class UserResolver {
     const users = await UserModel.find().exec();
 
     return users;
+  }
+
+  @Query(() => User)
+  async getUser(
+    @Ctx() auth: any
+  ): Promise<any | null> {
+    if (!auth) throw new AuthenticationError('you must be logged in!');
+
+  const token = auth.split('Bearer ')[1];
+  if (!token) throw new AuthenticationError('you should provide a token!');
+
+  const user = await getPayload(token);
+    if (!user) throw new AuthenticationError('invalid token!');
+    return user;
   }
 
   // @Authorized()
@@ -30,8 +41,10 @@ export default class UserResolver {
     return user;
   }
 
+  // @Authorized(["ADMIN"])
   @Mutation(() => User)
-  async createUser(@Arg("input") input: UserInput): Promise<User> {
+  async createUser(
+    @Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hash(input.password, 12);
     const token = getToken({input});
     const body = {
