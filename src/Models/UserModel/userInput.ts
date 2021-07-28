@@ -1,7 +1,7 @@
 import { IsEmail, Length } from "class-validator";
 import { Field, InputType } from "type-graphql";
 import { IsEmailAlreadyExist } from "../../Utils/emailVerificator";
-import { Role } from "./EnumType";
+import { Role } from "./enumType";
 import { User } from "./userSchema";
 
 @InputType()

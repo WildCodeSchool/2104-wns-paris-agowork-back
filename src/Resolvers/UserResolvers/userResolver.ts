@@ -3,7 +3,7 @@ import { User } from "../../Models/UserModel/userSchema";
 import bcrypt from "bcryptjs";
 import { UserModel } from "../../Models/UserModel/userSchema";
 import { UserInput } from "../../Models/UserModel/userInput";
-import { Role } from "../../Models/UserModel/EnumType";
+import { Role } from "../../Models/UserModel/enumType";
 const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
