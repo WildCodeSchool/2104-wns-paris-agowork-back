@@ -1,8 +1,7 @@
-import dotenv from "dotenv";
 import { connect } from "mongoose";
 require("dotenv").config();
 
-const dbUrl = `mongodb://localhost:${process.env.DB_PASS}/${process.env.DB_DATABASE}`;
+const dbUrl = `mongodb://mongodb:27017/agowork`;
 
 const options = { 
   useNewUrlParser: true, 

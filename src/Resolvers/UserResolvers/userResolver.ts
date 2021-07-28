@@ -4,8 +4,7 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../../Models/UserModel/userSchema";
 import { UserInput } from "../../Models/UserModel/userInput";
 import { Role } from "../../Models/UserModel/enumType";
-import { AuthenticationError } from "apollo-server-express";
-const { getToken } = require("../../Utils/security");
+const { setToken } = require("../../Utils/security");
 
 @Resolver(User)
 export default class UserResolver {
@@ -18,17 +17,10 @@ export default class UserResolver {
   }
 
   @Query(() => User)
-  async getUser(
-    @Ctx() auth: any
+  async currentUser(
+    @Ctx() context: any
   ): Promise<any | null> {
-    if (!auth) throw new AuthenticationError('you must be logged in!');
-
-  const token = auth.split('Bearer ')[1];
-  if (!token) throw new AuthenticationError('you should provide a token!');
-
-  const user = await getPayload(token);
-    if (!user) throw new AuthenticationError('invalid token!');
-    return user;
+    return context.user;
   }
 
   // @Authorized()
@@ -46,7 +38,7 @@ export default class UserResolver {
   async createUser(
     @Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hash(input.password, 12);
-    const token = getToken({input});
+    const token = setToken({input});
     const body = {
       firstname: input.firstname,
       lastname: input.lastname,
@@ -59,6 +51,7 @@ export default class UserResolver {
     };
     const user = new UserModel(body);
     await user.save();
+    console.log(user);
     return user;
   }
 

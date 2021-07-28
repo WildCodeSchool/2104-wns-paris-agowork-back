@@ -21,8 +21,8 @@ export default class LoginResolver {
     }
     const isMatch = await comparePassword(password, user.password)
     if (isMatch) {
-      const token = getToken(user)
-        return user ;
+      user.token = getToken(user);
+      return user ;
     } else {
         throw new AuthenticationError("Wrong Password!")
     }

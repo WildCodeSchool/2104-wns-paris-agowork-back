@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 import { authenticationChecker } from "./Utils/authChecker";
-const { getPayload } = require("./Utils/security");
+const { getUser } = require("./Utils/security");
 
 export default async function initServer(): Promise<void> {
   try {
@@ -22,7 +22,7 @@ export default async function initServer(): Promise<void> {
           authToken = req.headers.authorization;
 
           if (authToken) {
-            currentUser = await getPayload(authToken);
+            currentUser = await getUser(authToken);
           }
         } catch (err) {
           console.warn(`Unable to authenticate using auth token: ${authToken}`);
@@ -35,7 +35,7 @@ export default async function initServer(): Promise<void> {
       },
     });
 
-    const { url } = await server.listen();
+    const { url } = await server.listen(4000);
     // eslint-disable-next-line no-console
     console.log(`🚀 Server ready at ${url}`);
   } catch (err) {
@@ -43,7 +43,3 @@ export default async function initServer(): Promise<void> {
     console.log(err);
   }
 }
-function getUser(token: any) {
-  throw new Error("Function not implemented.");
-}
-
