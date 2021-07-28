@@ -1,30 +1,34 @@
-import { Resolver, Mutation, Arg, Ctx, Query } from "type-graphql";
+import { Resolver, Query, Arg } from "type-graphql";
 import bcrypt from "bcryptjs";
 import { User } from "../../Models/UserModel/userSchema";
 import { UserModel } from "../../Models/UserModel/userSchema";
-import { Context } from "../../Config/context";
-import { AuthenticationError } from "apollo-server";
-const { getToken, encryptPassword, comparePassword } = require("../../Utils/security")
+import { ApolloError, AuthenticationError } from "apollo-server";
+const {
+  getToken,
+  comparePassword,
+} = require("../../Utils/security");
 
 @Resolver()
 export default class LoginResolver {
-  
-  @Mutation(() => User)
+  @Query(() => User)
   async login(
     @Arg("password", () => String) password: string,
     @Arg("email", () => String) email: string,
-  ): Promise<User | null> {
+  ): Promise<any> {
 
     const user = await UserModel.findOne({ email: email } );
+
     if (!user) {
-      throw new Error('User not found');
+      throw new ApolloError('User not found');
     }
-    const isMatch = await comparePassword(password, user.password)
-    if (isMatch) {
-      user.token = getToken(user);
-      return user ;
+
+    if (user && bcrypt.compareSync(password, user.password)) {
+      const payload = {userEmail: user.email,
+                      userRole: user.role};
+      user.token = getToken(payload);
+      return user;
     } else {
-        throw new AuthenticationError("Wrong Password!")
+        throw new AuthenticationError("Wrong Password!");
     }
   }
 }

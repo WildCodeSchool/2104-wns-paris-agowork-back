@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Prop, getModelForClass } from '@typegoose/typegoose';
-import { Role } from "./enumType";
+import { Role } from "./EnumType";
 
 @ObjectType()
 export class User {

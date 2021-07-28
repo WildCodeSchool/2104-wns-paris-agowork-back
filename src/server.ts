@@ -3,7 +3,9 @@ import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 import { authenticationChecker } from "./Utils/authChecker";
-const { getUser } = require("./Utils/security");
+const jwt = require("jsonwebtoken");
+require("dotenv").config();
+const secret = `${process.env.SECRET_JWT}` ;
 
 export default async function initServer(): Promise<void> {
   try {
@@ -12,26 +14,17 @@ export default async function initServer(): Promise<void> {
       schema: await buildSchema({
         resolvers: [`${__dirname}/Resolvers/**/*.{ts,js}`],
         validate: false,
-        authChecker: authenticationChecker,
+        //authChecker: authenticationChecker,
       }),
-      context: async ({ req }: any) => {
-        let authToken = null;
-        let currentUser = null;
-
-        try {
-          authToken = req.headers.authorization;
-
-          if (authToken) {
-            currentUser = await getUser(authToken);
-          }
-        } catch (err) {
-          console.warn(`Unable to authenticate using auth token: ${authToken}`);
+      context: ({ req }: any) => {
+        const token = req.headers.authorization;
+        if (token) {
+          let payload;
+          try {
+            payload = jwt.verify(token, secret);
+            return { authenticatedUserEmail: payload.userEmail, authenticatedUserRole: payload.userRole };
+          } catch (err) {}
         }
-
-        return {
-          authToken,
-          currentUser,
-        };
       },
     });
 

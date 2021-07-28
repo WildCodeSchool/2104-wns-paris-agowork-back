@@ -3,8 +3,8 @@ import { User } from "../../Models/UserModel/userSchema";
 import bcrypt from "bcryptjs";
 import { UserModel } from "../../Models/UserModel/userSchema";
 import { UserInput } from "../../Models/UserModel/userInput";
-import { Role } from "../../Models/UserModel/enumType";
-const { setToken } = require("../../Utils/security");
+import { Role } from "../../Models/UserModel/EnumType";
+const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
 export default class UserResolver {
@@ -36,9 +36,13 @@ export default class UserResolver {
   // @Authorized(["ADMIN"])
   @Mutation(() => User)
   async createUser(
-    @Arg("input") input: UserInput): Promise<User> {
-    const hashedPassword = await bcrypt.hash(input.password, 12);
-    const token = setToken({input});
+    @Arg("input") input: UserInput): Promise<User|null> {
+    const hashedPassword = await bcrypt.hashSync(input.password, 12);
+    const payload = {userEmail: input.email,
+                    userRole: input.role};
+
+    const token = getToken(payload);
+   
     const body = {
       firstname: input.firstname,
       lastname: input.lastname,
@@ -49,9 +53,11 @@ export default class UserResolver {
       password: hashedPassword,
       token: token,
     };
+
     const user = new UserModel(body);
     await user.save();
     console.log(user);
+   
     return user;
   }
 
