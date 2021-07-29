@@ -14,7 +14,7 @@ export default async function initServer(): Promise<void> {
       schema: await buildSchema({
         resolvers: [`${__dirname}/Resolvers/**/*.{ts,js}`],
         validate: false,
-        //authChecker: authenticationChecker,
+        authChecker: authenticationChecker,
       }),
       context: ({ req }: any) => {
         const token = req.headers.authorization;
@@ -22,7 +22,11 @@ export default async function initServer(): Promise<void> {
           let payload;
           try {
             payload = jwt.verify(token, secret);
-            return { authenticatedUserEmail: payload.userEmail, authenticatedUserRole: payload.userRole };
+            console.table(payload.userRole);
+            return { 
+              authenticatedUserEmail: payload.userEmail, 
+              authenticatedUserRole: payload.userRole 
+            };
           } catch (err) {}
         }
       },

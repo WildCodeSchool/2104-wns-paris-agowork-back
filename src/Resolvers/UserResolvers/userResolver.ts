@@ -4,36 +4,30 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../../Models/UserModel/userSchema";
 import { UserInput } from "../../Models/UserModel/userInput";
 import { Role } from "../../Models/UserModel/enumType";
+import { ApolloError } from "apollo-server-express";
+import { Context } from "../../Models/UserModel/contextInterface";
 const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
 export default class UserResolver {
-  // @Authorized(["ADMIN", "TEACHER"])
-  @Query(() => [User])
+  @Authorized()
+  @Query(() => User)
   async getAllUsers(): Promise<User[]> {
     const users = await UserModel.find().exec();
-
     return users;
-  }
-
-  @Query(() => User)
-  async currentUser(
-    @Ctx() context: any
-  ): Promise<any | null> {
-    return context.user;
+  
   }
 
   // @Authorized()
   @Query(() => User)
-  async getUserById(@Arg("id", () => ID) id: string): Promise<User> {
-    const user = await UserModel.findById(id).exec();
-
-    if (!user) throw new Error("user not found");
-
-    return user;
+  async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
+      const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail } );
+      if (!user) throw new Error("user not found");
+      console.log(user);
+      return user;
   }
 
-  // @Authorized(["ADMIN"])
+  @Authorized("TEACHER")
   @Mutation(() => User)
   async createUser(
     @Arg("input") input: UserInput): Promise<User|null> {
@@ -53,11 +47,8 @@ export default class UserResolver {
       password: hashedPassword,
       token: token,
     };
-
     const user = new UserModel(body);
-    await user.save();
-    console.log(user);
-   
+    await user.save();   
     return user;
   }
 
