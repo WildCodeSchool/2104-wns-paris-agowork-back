@@ -21,7 +21,9 @@ export default class LoginResolver {
 
     if (user && bcrypt.compareSync(password, user.password)) {
       const payload = {userEmail: user.email,
-                      userRole: user.role};
+                      userRole: user.role,
+                      userFirstname: user.firstname,
+                      userLastname: user.lastname};
       user.token = getToken(payload);
       return user;
     } else {

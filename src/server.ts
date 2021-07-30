@@ -22,10 +22,11 @@ export default async function initServer(): Promise<void> {
           let payload;
           try {
             payload = jwt.verify(token, secret);
-            console.table(payload.userRole);
             return { 
               authenticatedUserEmail: payload.userEmail, 
-              authenticatedUserRole: payload.userRole 
+              authenticatedUserRole: payload.userRole,
+              authenticatedUserFirstname: payload.userFirstname,
+              authenticatedUserLastname: payload.userLastname
             };
           } catch (err) {}
         }
