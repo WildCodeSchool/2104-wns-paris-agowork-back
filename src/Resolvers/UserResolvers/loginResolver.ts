@@ -1,16 +1,13 @@
-import { Resolver, Query, Arg } from "type-graphql";
+import { Resolver, Arg, Mutation } from "type-graphql";
 import bcrypt from "bcryptjs";
 import { User } from "../../Models/UserModel/userSchema";
 import { UserModel } from "../../Models/UserModel/userSchema";
 import { ApolloError, AuthenticationError } from "apollo-server";
-const {
-  getToken,
-  comparePassword,
-} = require("../../Utils/security");
+const { getToken } = require("../../Utils/security");
 
 @Resolver()
 export default class LoginResolver {
-  @Query(() => User)
+  @Mutation(() => User)
   async login(
     @Arg("password", () => String) password: string,
     @Arg("email", () => String) email: string,
