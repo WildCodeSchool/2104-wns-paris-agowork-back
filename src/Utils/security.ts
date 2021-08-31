@@ -3,7 +3,7 @@ const bcrypt = require("bcryptjs");
 require("dotenv").config();
 const secret = `${process.env.SECRET_JWT}`;
 
-const comparePassword = (password: any, hash: any) => new Promise(async (resolve, reject) => {
+export const comparePassword = (password: any, hash: any) => new Promise(async (resolve, reject) => {
 	try {
 		const isMatch = await bcrypt.compareSync(password, hash)
 		resolve(isMatch)
@@ -14,15 +14,9 @@ const comparePassword = (password: any, hash: any) => new Promise(async (resolve
 	}
 })
 
-const getToken = (payload: any) => {
+export const getToken = (payload: any) => {
     const token = jwt.sign(payload, secret, {
         expiresIn: 604800, // 1 Week
     })
     return token
-}
-
-
-module.exports = {
-    getToken,
-    comparePassword
 }

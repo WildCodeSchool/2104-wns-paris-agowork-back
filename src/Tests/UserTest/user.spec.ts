@@ -1,6 +1,6 @@
 import "reflect-metadata";
 import startServer from "../../server";
-import config from "../../Config/environnement.dev";
+import config from "../../config/environnement.dev";
 import { gql } from "apollo-server-core";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";

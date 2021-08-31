@@ -1,9 +1,17 @@
-import { Resolver, Query, Arg, Mutation, Authorized, ID, Ctx } from "type-graphql";
-import { User } from "../../Models/UserModel/userSchema";
+import {
+  Resolver,
+  Query,
+  Arg,
+  Mutation,
+  Authorized,
+  ID,
+  Ctx,
+} from "type-graphql";
+import { User } from "../../Models/UserModel/UserSchema";
 import bcrypt from "bcryptjs";
-import { UserModel } from "../../Models/UserModel/userSchema";
+import { UserModel } from "../../Models/UserModel/UserSchema";
 import { UserInput } from "../../Models/UserModel/userInput";
-import { Role } from "../../Models/UserModel/enumType";
+import { Role } from "../../Models/UserModel/EnumType";
 import { ApolloError } from "apollo-server-express";
 import { Context } from "../../Models/UserModel/contextInterface";
 const { getToken } = require("../../Utils/security");
@@ -15,28 +23,25 @@ export default class UserResolver {
   async getAllUsers(): Promise<User[]> {
     const users = await UserModel.find().exec();
     return users;
-  
   }
 
   // @Authorized()
   @Query(() => User)
   async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
-      const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail } );
-      if (!user) throw new Error("user not found");
-      console.log(user);
-      return user;
+    const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail });
+    if (!user) throw new Error("user not found");
+    console.log(user);
+    return user;
   }
 
-  @Authorized("TEACHER")
+  // @Authorized("TEACHER")
   @Mutation(() => User)
-  async createUser(
-    @Arg("input") input: UserInput): Promise<User|null> {
+  async createUser(@Arg("input") input: UserInput): Promise<User | null> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);
-    const payload = {userEmail: input.email,
-                    userRole: input.role};
+    const payload = { userEmail: input.email, userRole: input.role };
 
     const token = getToken(payload);
-   
+
     const body = {
       firstname: input.firstname,
       lastname: input.lastname,
@@ -48,7 +53,7 @@ export default class UserResolver {
       token: token,
     };
     const user = new UserModel(body);
-    await user.save();   
+    await user.save();
     return user;
   }
 
@@ -61,7 +66,7 @@ export default class UserResolver {
     @Arg("lastname", () => String) lastname: string,
     @Arg("email", () => String) email: string,
     @Arg("town", () => String) town: string,
-    @Arg("picture", () => String) picture: string,
+    @Arg("picture", () => String) picture: string
   ) {
     const body: any = {
       firstname: firstname,
