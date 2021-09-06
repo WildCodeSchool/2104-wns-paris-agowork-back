@@ -1,6 +1,6 @@
 import "reflect-metadata";
-import {startServer} from "../../server";
-import { config }from "../../Config/environnement.dev";
+import startServer from "../../server";
+import config from "../../config/environnement.dev";
 import { gql } from "apollo-server-core";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
@@ -106,7 +106,7 @@ describe(
             async () => {
                 mongo = new MongoMemoryServer();
                 config.uri = await mongo.getUri();
-                apollo = await startServer(config);
+                apollo = await startServer();
             }
         );
 

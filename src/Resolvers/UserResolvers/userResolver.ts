@@ -1,44 +1,47 @@
-import { Resolver, Query, Arg, Mutation, Authorized, ID, Ctx } from "type-graphql";
-import { User } from "../../Models/UserModel/userSchema";
+import {
+  Resolver,
+  Query,
+  Arg,
+  Mutation,
+  Authorized,
+  ID,
+  Ctx,
+} from "type-graphql";
+import { User } from "../../Models/UserModel/UserSchema";
 import bcrypt from "bcryptjs";
-import { UserModel } from "../../Models/UserModel/userSchema";
+import { UserModel } from "../../Models/UserModel/UserSchema";
 import { UserInput } from "../../Models/UserModel/userInput";
-import { Role } from "../../Models/UserModel/enumType";
-const { setToken } = require("../../Utils/security");
+import { Role } from "../../Models/UserModel/EnumType";
+import { ApolloError } from "apollo-server-express";
+import { Context } from "../../Models/UserModel/contextInterface";
+const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
 export default class UserResolver {
-  // @Authorized(["ADMIN", "TEACHER"])
-  @Query(() => [User])
+  @Authorized()
+  @Query(() => User)
   async getAllUsers(): Promise<User[]> {
     const users = await UserModel.find().exec();
-
     return users;
-  }
-
-  @Query(() => User)
-  async currentUser(
-    @Ctx() context: any
-  ): Promise<any | null> {
-    return context.user;
   }
 
   // @Authorized()
   @Query(() => User)
-  async getUserById(@Arg("id", () => ID) id: string): Promise<User> {
-    const user = await UserModel.findById(id).exec();
-
+  async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
+    const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail });
     if (!user) throw new Error("user not found");
-
+    console.log(user);
     return user;
   }
 
-  // @Authorized(["ADMIN"])
+  // @Authorized("TEACHER")
   @Mutation(() => User)
-  async createUser(
-    @Arg("input") input: UserInput): Promise<User> {
-    const hashedPassword = await bcrypt.hash(input.password, 12);
-    const token = setToken({input});
+  async createUser(@Arg("input") input: UserInput): Promise<User | null> {
+    const hashedPassword = await bcrypt.hashSync(input.password, 12);
+    const payload = { userEmail: input.email, userRole: input.role };
+
+    const token = getToken(payload);
+
     const body = {
       firstname: input.firstname,
       lastname: input.lastname,
@@ -51,7 +54,6 @@ export default class UserResolver {
     };
     const user = new UserModel(body);
     await user.save();
-    console.log(user);
     return user;
   }
 
@@ -64,7 +66,7 @@ export default class UserResolver {
     @Arg("lastname", () => String) lastname: string,
     @Arg("email", () => String) email: string,
     @Arg("town", () => String) town: string,
-    @Arg("picture", () => String) picture: string,
+    @Arg("picture", () => String) picture: string
   ) {
     const body: any = {
       firstname: firstname,

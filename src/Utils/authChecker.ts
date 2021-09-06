@@ -1,22 +1,21 @@
-import { AuthenticationError } from "apollo-server-express";
+import { AuthenticationError, makeRemoteExecutableSchema } from "apollo-server-express";
 import { AuthChecker } from "type-graphql";
-import { Context } from "../Config/context";
 
 // create auth checker function
-export const authenticationChecker: AuthChecker<Context> = 
-({ context: { user } }, role) => {
-  if (role.length === 0) {
+export const authenticationChecker = 
+({ context: { authenticatedUserRole } }: any, roles: string | any[]) => {
+  if (roles.length === 0) {
     // if `@Authorized()`, check only if user exists
-    return user !== undefined;
+    return authenticatedUserRole !== undefined;
   }
   // there are some roles defined now
 
-  if (!user) {
+  if (!authenticatedUserRole) {
     // throw new AuthenticationError('Not authorized');
     // and if no user, restrict access
     return false;
   }
-  if (user.role.includes("ADMIN" || "TEACHER")) {
+  if (roles.includes(authenticatedUserRole)) {
     // grant access if the roles overlap
     return true;
   }
