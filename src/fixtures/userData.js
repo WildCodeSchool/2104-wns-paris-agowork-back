@@ -21,6 +21,7 @@ module.exports.createUser = async function () {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      versionKey: false,
     };
     mongoose.connect(dbUrl, options);
     console.log("await connect");
