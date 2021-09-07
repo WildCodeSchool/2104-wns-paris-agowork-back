@@ -1,29 +1,12 @@
 // command to initialize users in database
-// node -e 'require(\"./src/fixtures/userData.js\").createUser()'
+// node -e 'require(\"./src/Fixtures/userData.js\").createUser()'
 const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-const secret = `${process.env.SECRET_JWT}` ;
-
-const getToken = (payload) => {
-  const token = jwt.sign(payload, secret, {
-    expiresIn: 604800, // 1 Week
-  })
-  return token
-}
 
 module.exports.createUser = async function () {
   try {
-    const dbUrl = `mongodb://127.0.0.1:27017/agowork`;
-    const options = {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    };
-    mongoose.connect(dbUrl, options);
-
     const modelUser = mongoose.model('user', new mongoose.Schema({
       firstname: {
         type: String,
@@ -41,7 +24,6 @@ module.exports.createUser = async function () {
       picture: String,
       role: String,
       password: String,
-      token: String,
     }))
     
     const password = "password";
@@ -52,7 +34,7 @@ module.exports.createUser = async function () {
     if(modelUser.count() !== 0){
       await modelUser.deleteMany();
       console.log("fixtures: users delete()");
-    }
+    } 
     for (let i = 0; i < 20; i++) {
       let firstname;
       let lastname;
@@ -60,9 +42,7 @@ module.exports.createUser = async function () {
       let role;
       firstname = "firstname" + [i];
       lastname = "lastname" + [i];
-      email = "email" + [i];
-      const payload = { userEmail: email, userRole: role };
-      const token = getToken(payload);
+      email = "email" + [i] + "@gmail.com";
       const random = Math.floor(Math.random() * cities.length);
       if (i == 0) {
         role = 'SUPERADMIN';
@@ -83,7 +63,6 @@ module.exports.createUser = async function () {
         picture: picture,
         role: role,
         password: hashedPassword,
-        token: token,
       };
       const user = new modelUser(body);
       await user.save();
