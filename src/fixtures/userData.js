@@ -1,3 +1,4 @@
+// command to initialize users in database
 // node -e 'require(\"./src/fixtures/userData.js\").createUser()'
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
@@ -14,17 +15,14 @@ const getToken = (payload) => {
 }
 
 module.exports.createUser = async function () {
-  console.log("toto");
   try {
     const dbUrl = `mongodb://127.0.0.1:27017/agowork`;
     const options = {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      versionKey: false,
     };
     mongoose.connect(dbUrl, options);
-    console.log("await connect");
 
     const modelUser = mongoose.model('user', new mongoose.Schema({
       firstname: {
@@ -50,6 +48,11 @@ module.exports.createUser = async function () {
     const hashedPassword = await bcrypt.hashSync(password, 12);
     const picture = "https://images.unsplash.com/photo-1627434880836-e94b1bdc2098?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
+
+    if(modelUser.count() !== 0){
+      await modelUser.deleteMany();
+      console.log("fixtures: users delete()");
+    }
     for (let i = 0; i < 20; i++) {
       let firstname;
       let lastname;
@@ -85,6 +88,7 @@ module.exports.createUser = async function () {
       const user = new modelUser(body);
       await user.save();
     }
+  console.log("fixtures: users saved()");
   } catch (err) {
     console.log(err);
   }
