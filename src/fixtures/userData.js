@@ -4,7 +4,6 @@ const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
 require("dotenv").config();
 
-
 module.exports.createUser = async function () {
   try {
     const modelUser = mongoose.model('user', new mongoose.Schema({
@@ -25,16 +24,17 @@ module.exports.createUser = async function () {
       role: String,
       password: String,
     }))
-    
+
     const password = "password";
     const hashedPassword = await bcrypt.hashSync(password, 12);
     const picture = "https://images.unsplash.com/photo-1627434880836-e94b1bdc2098?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
 
-    if(modelUser.count() !== 0){
+    if (modelUser.count() !== 0) {
       await modelUser.deleteMany();
       console.log("fixtures: users delete()");
-    } 
+    }
+
     for (let i = 0; i < 20; i++) {
       let firstname;
       let lastname;
@@ -44,6 +44,7 @@ module.exports.createUser = async function () {
       lastname = "lastname" + [i];
       email = "email" + [i] + "@gmail.com";
       const random = Math.floor(Math.random() * cities.length);
+
       if (i == 0) {
         role = 'SUPERADMIN';
       } else if (i > 0 && i < 5) {
@@ -55,6 +56,7 @@ module.exports.createUser = async function () {
       } else if (i >= 15 && i < 20) {
         role = 'STUDENT';
       }
+      
       const body = {
         firstname: firstname,
         lastname: lastname,
@@ -67,7 +69,7 @@ module.exports.createUser = async function () {
       const user = new modelUser(body);
       await user.save();
     }
-  console.log("fixtures: users saved()");
+    console.log("fixtures: users saved()");
   } catch (err) {
     console.log(err);
   }

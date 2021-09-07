@@ -18,6 +18,7 @@ export default async function connectDB(): Promise<void> {
 
     // IF YOU NEED FIXTURES, DECOMMENT LAST LINES 
     // AND RECOMMENT IT RIGHT AFTER YOUR SERVER HAS CHARGED
+    
     // await createUser();
   } catch (err) {
     // eslint-disable-next-line no-console
