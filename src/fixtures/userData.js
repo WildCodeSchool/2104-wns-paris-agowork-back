@@ -2,20 +2,23 @@
 const bcrypt = require("bcryptjs");
 const { connect } = require("mongoose");
 require("dotenv").config();
-// const { getToken } = require("../Utils/security");
 
+const getToken = (payload) => {
+  const token = jwt.sign(payload, secret, {
+    expiresIn: 604800, // 1 Week
+  })
+  return token
+}
 
-
-
-module.exports.createUser = async function() {
-
-    const getToken = (payload) => {
-        const token = jwt.sign(payload, secret, {
-            expiresIn: 604800, // 1 Week
-        })
-        return token
-    }
-    
+module.exports.createUser = async function () {
+  try {
+    const dbUrl = `mongodb://mongodb:27017/agowork`;
+    const options = {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      autoIndex: true
+    };
+    await connect(dbUrl, options);
     const user = connect.Schema({
       firstname: {
         type: String,
@@ -36,65 +39,46 @@ module.exports.createUser = async function() {
       token: String,
     });
     connect.model("User", user);
-
-
-    
-    const dbUrl = `mongodb://mongodb:27017/agowork`;
-    const options = { 
-        useNewUrlParser: true, 
-        useUnifiedTopology: true, 
-        autoIndex: true
-      }; 
-
-      try {
-        await connect(dbUrl, options);
-        const password = "password";
+    const password = "password";
     const hashedPassword = await bcrypt.hashSync(password, 12);
     const picture = "https://images.unsplash.com/photo-1627434880836-e94b1bdc2098?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
-    for(let i=0; i<20; i++){
-        let firstname;
-        let lastname;
-        let email;
-        let role;
-        firstname = "firstname"+[i];
-        lastname = "lastname"+[i];
-        email = "email"+[i];
-        const payload = { userEmail: email, userRole: role };
-        const token = getToken(payload);
-        const random = Math.floor(Math.random() * cities.length);
-        if(i==0){
-            role = 'SUPERADMIN';
-        } else if(i>0 && i<5) { 
-            role = 'ADMIN';
-        } else if(i>=5 && i<10) {
-            role = 'ADMIN';
-        } else if(i>=10 && i<15) {
-            role = 'TEACHER';
-        } else if(i>=15 && i<20) {
-            role = 'STUDENT';
-        }
-        const body = {
-            firstname: firstname,
-            lastname: lastname,
-            town: cities[random],
-            email: email,
-            picture: picture,
-            role: role,
-            password: hashedPassword,
-            token: token,
-        };
-        const user = new User(body);
-        await user.save();
-    }
-
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(`Error during Database Connection : ${err}`);
+    for (let i = 0; i < 20; i++) {
+      let firstname;
+      let lastname;
+      let email;
+      let role;
+      firstname = "firstname" + [i];
+      lastname = "lastname" + [i];
+      email = "email" + [i];
+      const payload = { userEmail: email, userRole: role };
+      const token = getToken(payload);
+      const random = Math.floor(Math.random() * cities.length);
+      if (i == 0) {
+        role = 'SUPERADMIN';
+      } else if (i > 0 && i < 5) {
+        role = 'ADMIN';
+      } else if (i >= 5 && i < 10) {
+        role = 'ADMIN';
+      } else if (i >= 10 && i < 15) {
+        role = 'TEACHER';
+      } else if (i >= 15 && i < 20) {
+        role = 'STUDENT';
       }
-
-// async function createUser(){
-    
-
+      const body = {
+        firstname: firstname,
+        lastname: lastname,
+        town: cities[random],
+        email: email,
+        picture: picture,
+        role: role,
+        password: hashedPassword,
+        token: token,
+      };
+      const user = new User(body);
+    }
+    await user.save();
+  } catch(err) {
+    console.log(err);
   }
-
+}
