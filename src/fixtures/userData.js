@@ -6,6 +6,14 @@ require("dotenv").config();
 
 module.exports.createUser = async function () {
   try {
+    const dbUrl = `mongodb://mongodb:27017/agowork`;
+    const options = {
+      useCreateIndex: true,
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    };
+    mongoose.connect(dbUrl, options);
+
     const modelUser = mongoose.model('user', new mongoose.Schema({
       firstname: {
         type: String,
@@ -45,10 +53,8 @@ module.exports.createUser = async function () {
       email = "email" + [i] + "@gmail.com";
       const random = Math.floor(Math.random() * cities.length);
 
-      if (i == 0) {
+      if (i >= 0 && i < 5) {
         role = 'SUPERADMIN';
-      } else if (i > 0 && i < 5) {
-        role = 'ADMIN';
       } else if (i >= 5 && i < 10) {
         role = 'ADMIN';
       } else if (i >= 10 && i < 15) {
