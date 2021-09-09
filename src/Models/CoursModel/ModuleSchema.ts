@@ -3,7 +3,7 @@ import { Prop, getModelForClass, Ref } from "@typegoose/typegoose";
 import { Course } from "./CourseSchema";
 
 @ObjectType()
-export class Modules {
+export class Module {
     @Field(() => ID)
     id!: string;
 
@@ -20,6 +20,6 @@ export class Modules {
     course?: Ref<Course>[];
 }
 
-export const ModulesModel = getModelForClass(Modules, {
+export const ModuleModel = getModelForClass(Module, {
     schemaOptions: { timestamps: true },
 });
