@@ -12,11 +12,11 @@ export class Course {
 
     @Field(() => String, { nullable: true }) 
     @Prop({ trim: true, required: true })
-    isValidated?: [String];
+    isValidated!: [String];
 
     @Field(() => String, { nullable: true }) 
     @Prop({ trim: true, required: true })
-    comments?: String;
+    content!: String;
 }
 
 export const CourseModel = getModelForClass(Course, {
