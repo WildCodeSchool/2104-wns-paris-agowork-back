@@ -4,7 +4,7 @@ import { Module } from "./ModuleSchema";
 import CourseInput from "./CourseInput";
 
 @InputType()
-export class ModuleInput implements Partial<Module>{
+export default class ModuleInput implements Partial<Module>{
 
     @Field(() => String)
     @Length(1, 255)

@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Prop, getModelForClass } from "@typegoose/typegoose";
+import { IsValidated } from "./AchievmentEnum";
 
 @ObjectType()
 export class Course {
@@ -10,9 +11,9 @@ export class Course {
     @Prop({ trim: true, required: true })
     courseTitle!: string;
 
-    @Field(() => String, { nullable: true }) 
-    @Prop({ trim: true, required: true })
-    isValidated!: [String];
+    @Field(() => IsValidated)
+    @Prop({ enum: IsValidated, type: String })
+    role!: IsValidated;
 
     @Field(() => String, { nullable: true }) 
     @Prop({ trim: true, required: true })
