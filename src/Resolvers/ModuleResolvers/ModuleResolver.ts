@@ -7,23 +7,25 @@ import {
   @Resolver(Module)
   export default class ModuleResolver {
     @Query(() => [Module])
-    async Modules(): Promise<Module[]> {
+    async getAllModules(): Promise<Module[]> {
       const modules = await ModuleModel.find().exec();
+
+      if (!modules) throw new Error('Modules not found');
   
       return modules;
     }
   
     @Query(() => Module)
-    async school(@Arg('id', () => ID) id: string): Promise<Module> {
+    async getOneModule(@Arg('id', () => ID) id: string): Promise<Module> {
       const module = await ModuleModel.findById(id).exec();
   
-      if (!module) throw new Error('School not found');
+      if (!module) throw new Error('Module not found');
   
       return module;
     }
   
     @Mutation(() => Module)
-    async createSchool(@Arg('input') input: ModuleInput): Promise<Module> {
+    async createModule(@Arg('input') input: ModuleInput): Promise<Module> {
       const module = new ModuleModel(input);
   
       await module.save();
@@ -45,7 +47,7 @@ import {
     }
   
     @Mutation(() => Module)
-    async deleteSchool(@Arg('id', () => ID) id: string): Promise<Module> {
+    async deleteModule(@Arg('id', () => ID) id: string): Promise<Module> {
       const module = await ModuleModel.findByIdAndDelete(id);
       if (!module) throw new Error('school not found');
   

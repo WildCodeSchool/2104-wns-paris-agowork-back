@@ -15,9 +15,9 @@ export class Module {
     @Prop({ trim: true, required: true })
     content?: String;
 
-    @Field(() => String, { nullable: true })
-    @Prop({ trim: true, required: true })
-    course?: Ref<Course>[];
+    // @Field(() => String, { nullable: true })
+    // @Prop({ trim: true, required: true })
+    // course?: Ref<Course>[];
 }
 
 export const ModuleModel = getModelForClass(Module, {
