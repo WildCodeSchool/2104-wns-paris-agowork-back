@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import connectDB from "./Config/environnement.dev"
+import connectDB from "./config/environnement.dev"
 import initServer from "./server";
 
 connectDB();
