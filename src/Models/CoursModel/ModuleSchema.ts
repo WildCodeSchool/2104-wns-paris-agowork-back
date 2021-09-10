@@ -13,7 +13,7 @@ export class Module {
 
     @Field(() => String, { nullable: true }) 
     @Prop({ trim: true, required: true })
-    comments?: String;
+    content?: String;
 
     @Field(() => String, { nullable: true })
     @Prop({ trim: true, required: true })
