@@ -1,8 +1,8 @@
 import { IsEmail, Length } from "class-validator";
 import { Field, InputType } from "type-graphql";
 import { IsEmailAlreadyExist } from "../../Utils/emailVerificator";
-import { Role } from "./enumType";
-import { User } from "./userSchema";
+import { Role } from "./EnumType";
+import { User } from "./UserSchema";
 
 @InputType()
 export class UserInput implements Partial<User> {

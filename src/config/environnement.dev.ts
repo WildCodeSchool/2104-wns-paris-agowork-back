@@ -9,7 +9,6 @@ const options = {
   autoIndex: true
 }; 
 
-
 export default async function connectDB(): Promise<void> {
   try {
     await connect(dbUrl, options);
