@@ -41,7 +41,7 @@ import {
       const module = await ModuleModel.findByIdAndUpdate(id, input, {
         new: true,
       });
-      if (!module) throw new Error('school not found');
+      if (!module) throw new Error('Module not found');
   
       return module;
     }
@@ -49,7 +49,7 @@ import {
     @Mutation(() => Module)
     async deleteModule(@Arg('id', () => ID) id: string): Promise<Module> {
       const module = await ModuleModel.findByIdAndDelete(id);
-      if (!module) throw new Error('school not found');
+      if (!module) throw new Error('module not found');
   
       return module;
     }
