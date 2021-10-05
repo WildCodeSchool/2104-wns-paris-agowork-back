@@ -2,7 +2,10 @@ FROM node:alpine
 
 RUN mkdir /app
 WORKDIR /app
-COPY *.json ./
+COPY package*.json ./
+COPY jest.config.ts ./
+COPY schema.gql ./
+COPY tsconfig.json ./
 
 RUN npm i
 COPY src src
