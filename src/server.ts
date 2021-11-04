@@ -5,7 +5,7 @@ import { buildSchema } from "type-graphql";
 import { authenticationChecker } from "./Utils/authChecker";
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const secret = `${process.env.SECRET_JWT}` ;
+const secret = process.env.SECRET_JWT;
 
 export default async function initServer(): Promise<void> {
   try {
