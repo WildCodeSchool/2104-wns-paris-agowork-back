@@ -26,7 +26,8 @@ export default async function initServer(): Promise<void> {
               authenticatedUserEmail: payload.userEmail, 
               authenticatedUserRole: payload.userRole,
               authenticatedUserFirstname: payload.userFirstname,
-              authenticatedUserLastname: payload.userLastname
+              authenticatedUserLastname: payload.userLastname,
+              authenticatedUserTown: payload.userTown,
             };
           } catch (err) {}
         }
