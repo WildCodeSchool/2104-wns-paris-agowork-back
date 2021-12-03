@@ -34,7 +34,7 @@ export default class UserResolver {
     return user;
   }
 
-  // @Authorized("TEACHER")
+  @Authorized("ADMIN", "SUPERADMIN")
   @Mutation(() => User)
   async createUser(@Arg("input") input: UserInput): Promise<User | null> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);
@@ -50,7 +50,6 @@ export default class UserResolver {
       picture: input.picture || undefined,
       role: input.role,
       password: hashedPassword,
-      token: token,
     };
     const user = new UserModel(body);
     await user.save();

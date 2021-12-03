@@ -16,14 +16,8 @@ module.exports.createUser = async function () {
     await mongoose.connect(dbUrl, options);
 
     const modelUser = mongoose.model('user', new mongoose.Schema({
-      firstname: {
-        type: String,
-        unique: true,
-      },
-      lastname: {
-        type: String,
-        unique: true,
-      },
+      firstname: String,
+      lastname: String,
       email: {
         type: String,
         unique: true,
