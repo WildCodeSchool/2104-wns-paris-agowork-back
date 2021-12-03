@@ -11,7 +11,6 @@ export const authenticationChecker =
   // there are some roles defined now
 
   if (!authenticatedUserRole) {
-    // throw new AuthenticationError('Not authorized');
     // and if no user, restrict access
     return false;
   }

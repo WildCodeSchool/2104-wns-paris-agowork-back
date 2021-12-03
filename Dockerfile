@@ -1,7 +1,8 @@
-FROM node:alpine
+FROM node:16-alpine
 
 RUN mkdir /app
 WORKDIR /app
+
 COPY package*.json ./
 COPY jest.config.ts ./
 COPY schema.gql ./

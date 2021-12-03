@@ -15,10 +15,6 @@ export class User {
   @Prop({ enum: Role, type: String })
   role!: Role;
 
-  // @Field()
-  // @Prop({ required: true })
-  // role!: ["SUPERADMIN", "ADMIN", "STUDENT", "TEACHER"];
-
   @Field()
   @Prop({ trim: true, required: true })
   firstname!: string;

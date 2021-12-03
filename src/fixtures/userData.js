@@ -6,23 +6,18 @@ require("dotenv").config();
 
 module.exports.createUser = async function () {
   try {
-    const dbUrl = `mongodb://mongodb:27017/agowork`;
+    const dbLink = process.env.DB_LINK;
+    const dbUrl = 'mongodb://' + dbLink + ':27017/agowork';
     const options = {
       useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
     };
-    mongoose.connect(dbUrl, options);
+    await mongoose.connect(dbUrl, options);
 
     const modelUser = mongoose.model('user', new mongoose.Schema({
-      firstname: {
-        type: String,
-        unique: true,
-      },
-      lastname: {
-        type: String,
-        unique: true,
-      },
+      firstname: String,
+      lastname: String,
       email: {
         type: String,
         unique: true,
@@ -62,7 +57,7 @@ module.exports.createUser = async function () {
       } else if (i >= 15 && i < 20) {
         role = 'STUDENT';
       }
-      
+
       const body = {
         firstname: firstname,
         lastname: lastname,

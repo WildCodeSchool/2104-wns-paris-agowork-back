@@ -1,7 +1,9 @@
 import { connect } from "mongoose";
 require("dotenv").config();
+const dbLink = process.env.DB_LINK;
+console.log('dblink' + dbLink);
 
-const dbUrl = `mongodb://mongodb:27017/agowork`;
+const dbUrl = 'mongodb://' + dbLink + ':27017/agowork';
 
 const options = { 
   useNewUrlParser: true, 
