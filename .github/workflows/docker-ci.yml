@@ -3,8 +3,6 @@ name: docker-ci
 on:
   push:
     branches:
-      - 'dev'
-      - 'master-staging'
       - 'master'
 
 jobs:
@@ -38,12 +36,3 @@ jobs:
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-  test-back:
-    runs-on: ubuntu-latest
-    steps:
-      - 
-        name: Check out code
-        uses: actions/checkout@v2
-      -
-        name: run tests for 2104-wns-paris-agowork-back
-        run: npm install && npm run test
