@@ -3,6 +3,8 @@ name: docker-ci
 on:
   push:
     branches:
+      - 'dev'
+      - 'master-staging'
       - 'master'
 
 jobs:
@@ -32,7 +34,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: julienwillette/agowork-back:latest
+          tags: oceanekl/agowork:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
