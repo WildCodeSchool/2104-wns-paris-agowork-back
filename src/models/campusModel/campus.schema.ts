@@ -17,7 +17,7 @@ export class Campus {
 
   @Field()
   @Prop({ required: true })
-  number!: string;
+  phone!: string;
 }
 
 export const CampusModel = getModelForClass(Campus, {

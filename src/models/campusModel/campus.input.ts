@@ -10,5 +10,5 @@ export class CampusInput implements Partial<Campus> {
   address!: string;
 
   @Field()
-  number!: string;
+  phone!: string;
 }
