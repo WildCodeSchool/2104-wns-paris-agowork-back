@@ -1,9 +1,9 @@
 import { Resolver, Arg, Mutation } from "type-graphql";
 import bcrypt from "bcryptjs";
-import { User } from "../../Models/UserModel/UserSchema";
-import { UserModel } from "../../Models/UserModel/UserSchema";
+import { User } from "../../models/userModel/user.schema";
+import { UserModel } from "../../models/userModel/user.schema";
 import { ApolloError, AuthenticationError } from "apollo-server";
-import { getToken } from "../../Utils/security";
+import { getToken } from "../../utils/security";
 
 @Resolver()
 export default class LoginResolver {

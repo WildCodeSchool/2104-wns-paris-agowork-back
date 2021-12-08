@@ -7,13 +7,13 @@ import {
   ID,
   Ctx,
 } from "type-graphql";
-import { User } from "../../Models/UserModel/UserSchema";
+import { User } from "../../models/userModel/user.schema";
 import bcrypt from "bcryptjs";
-import { UserModel } from "../../Models/UserModel/UserSchema";
-import { UserInput } from "../../Models/UserModel/userInput";
-import { Role } from "../../Models/UserModel/EnumType";
+import { UserModel } from "../../models/userModel/user.schema";
+import { UserInput } from "../../models/userModel/user.input";
+import { Role } from "../../models/userModel/role.enum";
 import { ApolloError } from "apollo-server-express";
-import { Context } from "../../Models/UserModel/contextInterface";
+import { Context } from "../../models/userModel/context.interface";
 const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
@@ -34,13 +34,10 @@ export default class UserResolver {
     return user;
   }
 
-  @Authorized("ADMIN", "SUPERADMIN")
+  // @Authorized(["ADMIN", "SUPERADMIN"])
   @Mutation(() => User)
-  async createUser(@Arg("input") input: UserInput): Promise<User | null> {
+  async createUser(@Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);
-    const payload = { userEmail: input.email, userRole: input.role };
-
-    const token = getToken(payload);
 
     const body = {
       firstname: input.firstname,
@@ -79,7 +76,7 @@ export default class UserResolver {
     return body;
   }
 
-  // @Authorized(["ADMIN"])
+  @Authorized(["ADMIN", "SUPERADMIN"])
   @Mutation(() => User, { nullable: true })
   public async deleteUser(@Arg("id", () => String) id: string) {
     const user = await UserModel.findById(id);

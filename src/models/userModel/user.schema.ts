@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Prop, getModelForClass } from "@typegoose/typegoose";
-import { Role } from "./EnumType";
+import { Role } from "./role.enum";
+import { Mood } from "./mood.enum";
 
 @ObjectType()
 export class User {
@@ -11,9 +12,17 @@ export class User {
   @Prop({ required: false })
   token?: string;
 
+  @Field(() => String, { nullable: true })
+  @Prop({ required: false })
+  isActive!: boolean;
+
   @Field(() => Role)
   @Prop({ enum: Role, type: String })
   role!: Role;
+
+  @Field(() => Mood)
+  @Prop({ enum: Mood, type: String })
+  mood!: Mood;
 
   @Field()
   @Prop({ trim: true, required: true })

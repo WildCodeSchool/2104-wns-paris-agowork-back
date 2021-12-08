@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Prop, getModelForClass, Ref } from "@typegoose/typegoose";
-import { Course } from "./CourseSchema";
+import { Course } from "./course.schema";
 
 @ObjectType()
 export class Module {

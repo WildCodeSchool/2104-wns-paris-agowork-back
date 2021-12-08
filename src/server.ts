@@ -2,7 +2,7 @@ import "reflect-metadata";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { authenticationChecker } from "./Utils/authChecker";
+import { authenticationChecker } from "./utils/authChecker";
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET_JWT;
@@ -12,7 +12,7 @@ export default async function initServer(): Promise<void> {
     const server = new ApolloServer({
       cors: true,
       schema: await buildSchema({
-        resolvers: [`${__dirname}/Resolvers/**/*.{ts,js}`],
+        resolvers: [`${__dirname}/resolvers/**/*.{ts,js}`],
         validate: false,
         authChecker: authenticationChecker,
       }),

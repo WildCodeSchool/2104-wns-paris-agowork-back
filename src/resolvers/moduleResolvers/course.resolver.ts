@@ -1,8 +1,8 @@
 import {
     Resolver, Query, Arg, ID, Mutation,
   } from 'type-graphql';
-  import CourseInput from '../../Models/CoursModel/CourseInput';
-  import { Course, CourseModel } from '../../Models/CoursModel/CourseSchema';
+  import CourseInput from '../../models/coursModel/course.input';
+  import { Course, CourseModel } from '../../models/coursModel/course.schema';
   
   @Resolver(Course)
   export default class CourseResolver {

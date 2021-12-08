@@ -1,6 +1,6 @@
 import { Field, InputType } from "type-graphql";
 import { Length } from "class-validator";
-import { Course } from "./CourseSchema";
+import { Course } from "./course.schema";
 
 @InputType()
 export default class CourseInput implements Partial<Course>{
