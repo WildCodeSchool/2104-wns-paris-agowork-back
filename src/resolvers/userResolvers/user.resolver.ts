@@ -4,7 +4,6 @@ import {
   Arg,
   Mutation,
   Authorized,
-  ID,
   Ctx,
 } from "type-graphql";
 import { User } from "../../models/userModel/user.schema";
@@ -12,7 +11,6 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../../models/userModel/user.schema";
 import { UserInput } from "../../models/userModel/user.input";
 import { Role } from "../../models/userModel/role.enum";
-import { ApolloError } from "apollo-server-express";
 import { Context } from "../../models/userModel/context.interface";
 const { getToken } = require("../../Utils/security");
 
@@ -62,7 +60,7 @@ export default class UserResolver {
     @Arg("lastname", () => String) lastname: string,
     @Arg("email", () => String) email: string,
     @Arg("town", () => String) town: string,
-    @Arg("picture", () => String) picture: string
+    @Arg("picture", () => String) picture: string,
   ) {
     const body: any = {
       firstname: firstname,
