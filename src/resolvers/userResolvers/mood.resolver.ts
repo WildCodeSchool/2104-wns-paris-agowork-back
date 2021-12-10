@@ -23,15 +23,10 @@ export default class MoodResolver {
     return mood;
   }
 
-  // @Query(() => [User])
-  // public async getAllUsersByMood(@Arg("id") id: string): Promise<User[]> {
-  //   const users = await UserModel.find({ town: "Brest" }).limit(2).exec();
-  //   return users;
-  // }
   @Query(() => [User])
   public async getAllStudentsByMood(): Promise<User[]> {
     const role = "STUDENT" as Role ;
-    const users = await UserModel.find({role}).exec();
+    const users = await UserModel.find({role}).limit(10).exec();
     return users;
   }
 }
