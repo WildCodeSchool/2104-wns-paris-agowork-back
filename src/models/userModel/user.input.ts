@@ -1,9 +1,7 @@
-import { Ref } from "@typegoose/typegoose";
 import { IsEmail, Length } from "class-validator";
 import { ObjectId } from "mongoose";
 import { Field, ID, InputType } from "type-graphql";
 import { IsEmailAlreadyExist } from "../../utils/emailVerificator";
-import { CampusInput } from "../campusModel/campus.input";
 import { Campus } from "../campusModel/campus.schema";
 import { Mood } from "./mood.enum";
 import { Role } from "./role.enum";
@@ -38,14 +36,15 @@ export class UserInput implements Partial<User> {
   @Field(() => String)
   password!: string;
 
-  // @Field(() => Campus)
-  // campus!: Campus;
+  @Field(() => String, { nullable: true })
+  campus!: ObjectId
 }
 
 @InputType()
 export class MoodInput implements Partial<User> {
-  @Field(() => ID)
-  id!: string;
+  @Field(() => String)
+  @IsEmail()
+  email!: string;
 
   @Field(() => Mood)
   mood!: Mood;

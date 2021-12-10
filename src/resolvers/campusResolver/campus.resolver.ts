@@ -10,4 +10,10 @@ export default class CampusResolver {
     await campus.save();
     return campus;
   }
+
+  @Query(() => Campus)
+  async getCampus(): Promise<Campus[]> {
+    const campus = await CampusModel.find().exec();
+    return campus;
+  }
 }

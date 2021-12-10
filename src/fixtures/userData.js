@@ -22,6 +22,7 @@ module.exports.createUser = async function () {
         type: String,
         unique: true,
       },
+      mood: String,
       town: String,
       picture: String,
       role: String,
@@ -32,6 +33,7 @@ module.exports.createUser = async function () {
     const hashedPassword = await bcrypt.hashSync(password, 12);
     const picture = "https://images.unsplash.com/photo-1627434880836-e94b1bdc2098?ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwyMnx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60";
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
+    const moods = ["GREAT", "GOOD", "OK", "NOTGOOD"];
 
     if (modelUser.count() !== 0) {
       await modelUser.deleteMany();
@@ -46,7 +48,8 @@ module.exports.createUser = async function () {
       firstname = "firstname" + [i];
       lastname = "lastname" + [i];
       email = "email" + [i] + "@gmail.com";
-      const random = Math.floor(Math.random() * cities.length);
+      const citiesRandom = Math.floor(Math.random() * cities.length);
+      const moodsRandom = Math.floor(Math.random() * moods.length);
 
       if (i >= 0 && i < 5) {
         role = 'SUPERADMIN';
@@ -61,7 +64,8 @@ module.exports.createUser = async function () {
       const body = {
         firstname: firstname,
         lastname: lastname,
-        town: cities[random],
+        town: cities[citiesRandom],
+        mood: moods[moodsRandom],
         email: email,
         picture: picture,
         role: role,

@@ -12,12 +12,13 @@ import { UserModel } from "../../models/userModel/user.schema";
 import { UserInput } from "../../models/userModel/user.input";
 import { Role } from "../../models/userModel/role.enum";
 import { Context } from "../../models/userModel/context.interface";
+import { CampusModel } from "../../models/campusModel/campus.schema";
 const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
 export default class UserResolver {
-  @Authorized()
-  @Query(() => User)
+  // @Authorized()
+  @Query(() => [User])
   async getAllUsers(): Promise<User[]> {
     const users = await UserModel.find().exec();
     return users;
@@ -36,7 +37,8 @@ export default class UserResolver {
   @Mutation(() => User)
   async createUser(@Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);
-
+    const campus = await CampusModel.findById(input.campus);
+    if (!campus) throw new Error('Campus introuvable');
     const body = {
       firstname: input.firstname,
       lastname: input.lastname,
@@ -44,6 +46,7 @@ export default class UserResolver {
       email: input.email,
       picture: input.picture || undefined,
       role: input.role,
+      campus: campus,
       password: hashedPassword,
     };
     const user = new UserModel(body);

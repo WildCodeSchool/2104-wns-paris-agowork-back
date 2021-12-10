@@ -1,23 +1,38 @@
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Ctx } from "type-graphql";
 import { User } from "../../models/userModel/user.schema";
 import { UserModel } from "../../models/userModel/user.schema";
 import { MoodInput } from "../../models/userModel/user.input";
+import { Context } from "../../models/userModel/context.interface";
+import { Role } from "../../models/userModel/role.enum";
+
 
 @Resolver(User)
 export default class MoodResolver {
   @Mutation(() => User)
   public async updateMood(
     @Arg("input") input: MoodInput,
-  ): Promise<User | null> {
-    const mood = await UserModel.findByIdAndUpdate(input.id, input, {
+    @Ctx() ctx: Context,
+  ): Promise<object | null> {
+    console.log(input);
+    // if (!input.email == ctx.authenticatedUserEmail) {
+    //   throw new Error("une erreur est survenue");
+    // }
+    const mood = await UserModel.findOneAndUpdate({email: input.email}, input, {
       new: true,
     });
     return mood;
   }
 
-  @Query(() => User)
-  public async getAllUsersByMood(@Arg("id") id: string): Promise<User[]> {
-    const users = await UserModel.find({ town: "Brest" }).limit(2).exec();
+  // @Query(() => [User])
+  // public async getAllUsersByMood(@Arg("id") id: string): Promise<User[]> {
+  //   const users = await UserModel.find({ town: "Brest" }).limit(2).exec();
+  //   return users;
+  // }
+  @Query(() => [User])
+  public async getAllStudentsByMood(): Promise<User[]> {
+    const role = "STUDENT" as Role ;
+    const users = await UserModel.find({role}).exec();
     return users;
   }
 }
+

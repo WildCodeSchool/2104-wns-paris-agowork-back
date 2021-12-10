@@ -2,15 +2,13 @@ import { Field, ID, ObjectType } from "type-graphql";
 import {
   Prop,
   getModelForClass,
-  setGlobalOptions,
-  Severity,
   Ref,
 } from "@typegoose/typegoose";
 import { Role } from "./role.enum";
 import { Mood } from "./mood.enum";
 import { Campus } from "../campusModel/campus.schema";
+import { ObjectId } from "mongoose";
 
-setGlobalOptions({ options: { allowMixed: Severity.ALLOW } });
 @ObjectType()
 export class User {
   @Field(() => ID)
@@ -55,8 +53,9 @@ export class User {
   @Prop({ trim: true, required: false })
   picture?: string;
 
-  @Prop({ ref: () => Campus })
-  public campus!: Ref<Campus>;
+  @Field(() => String)
+  @Prop({ required: true })
+  public course!: Ref<Campus>
 }
 
 export const UserModel = getModelForClass(User, {
