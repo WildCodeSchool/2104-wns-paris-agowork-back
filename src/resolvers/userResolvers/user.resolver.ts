@@ -37,10 +37,8 @@ export default class UserResolver {
   @Mutation(() => User)
   async createUser(@Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);
-    console.log(input);
-    const campus = await CampusModel.findById(input.campus).exec();
+    const campus = await CampusModel.findById({ _id: input.campus }).exec();
     if (!campus) throw new Error('Campus introuvable');
-
     const body = {
       firstname: input.firstname,
       lastname: input.lastname,
@@ -48,11 +46,10 @@ export default class UserResolver {
       email: input.email,
       picture: input.picture || undefined,
       role: input.role,
-      campus: {
-        ...campus
-      },
+      campus: campus,
       password: hashedPassword,
     };
+    
     const user = await(await UserModel.create(body)).save();
     console.log(user);
     return user;

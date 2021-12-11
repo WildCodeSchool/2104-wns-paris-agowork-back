@@ -53,8 +53,8 @@ export class User {
   @Prop({ trim: true, required: false })
   picture?: string;
 
-  @Field(() => String, { nullable: true })
-  @Prop({ ref: () => Campus })
+  @Field(() => ID)
+  @Prop({ ref: () => Campus, autopopulate: true })
   public campus!: Ref<Campus>
 }
 
