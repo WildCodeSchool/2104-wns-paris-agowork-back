@@ -1,6 +1,5 @@
 import { Ref } from "@typegoose/typegoose";
 import { IsEmail, Length } from "class-validator";
-import { ObjectId } from "mongoose";
 import { Field, ID, InputType } from "type-graphql";
 import { IsEmailAlreadyExist } from "../../utils/emailVerificator";
 import { Campus } from "../campusModel/campus.schema";
@@ -37,8 +36,8 @@ export class UserInput implements Partial<User> {
   @Field(() => String)
   password!: string;
 
-  @Field(() => ID)
-  campus!: Ref<Campus>
+  @Field(() => String)
+  campus!: Ref<Campus, string>
 }
 
 @InputType()

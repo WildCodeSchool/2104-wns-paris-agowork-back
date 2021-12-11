@@ -46,7 +46,7 @@ export default class UserResolver {
       email: input.email,
       picture: input.picture || undefined,
       role: input.role,
-      campus: campus,
+      campus: campus.name,
       password: hashedPassword,
     };
     

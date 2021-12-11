@@ -53,9 +53,9 @@ export class User {
   @Prop({ trim: true, required: false })
   picture?: string;
 
-  @Field(() => ID)
-  @Prop({ ref: () => Campus, autopopulate: true })
-  public campus!: Ref<Campus>
+  @Field(() => String)
+  @Prop({ ref: () => Campus, type: () => String })
+  public campus!: Ref<Campus, string>
 }
 
 export const UserModel = getModelForClass(User, {
