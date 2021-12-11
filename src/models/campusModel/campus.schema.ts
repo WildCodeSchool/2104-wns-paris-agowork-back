@@ -8,15 +8,15 @@ export class Campus {
   id!: string;
 
   @Field()
-  @Prop({ trim: true, required: true })
+  @Prop({ unique: true, required: true })
   name!: string;
 
   @Field()
-  @Prop({ required: true })
+  @Prop({ required: false })
   address!: string;
 
   @Field()
-  @Prop({ required: true })
+  @Prop({ required: false })
   phone!: string;
 }
 

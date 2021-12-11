@@ -1,3 +1,4 @@
+import { Ref } from "@typegoose/typegoose";
 import { IsEmail, Length } from "class-validator";
 import { ObjectId } from "mongoose";
 import { Field, ID, InputType } from "type-graphql";
@@ -21,7 +22,7 @@ export class UserInput implements Partial<User> {
   @Length(1, 255)
   town!: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Length(1, 255)
   picture?: string;
 
@@ -36,8 +37,8 @@ export class UserInput implements Partial<User> {
   @Field(() => String)
   password!: string;
 
-  @Field(() => String, { nullable: true })
-  campus!: ObjectId
+  @Field(() => String)
+  campus!: Ref<Campus>
 }
 
 @InputType()

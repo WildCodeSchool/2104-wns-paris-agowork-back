@@ -53,9 +53,9 @@ export class User {
   @Prop({ trim: true, required: false })
   picture?: string;
 
-  @Field(() => String)
-  @Prop({ required: true })
-  public course!: Ref<Campus>
+  @Field(() => String, { nullable: true })
+  @Prop({ ref: () => Campus })
+  public campus!: Ref<Campus>
 }
 
 export const UserModel = getModelForClass(User, {

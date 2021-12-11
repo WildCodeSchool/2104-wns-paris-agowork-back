@@ -11,7 +11,7 @@ export default class CampusResolver {
     return campus;
   }
 
-  @Query(() => Campus)
+  @Query(() => [Campus])
   async getCampus(): Promise<Campus[]> {
     const campus = await CampusModel.find().exec();
     return campus;
