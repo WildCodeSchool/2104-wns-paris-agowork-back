@@ -27,6 +27,7 @@ module.exports.createUser = async function () {
       picture: String,
       role: String,
       password: String,
+      campus: String
     }))
 
     const password = "password";
@@ -38,6 +39,7 @@ module.exports.createUser = async function () {
       "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"];
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
     const moods = ["GREAT", "GOOD", "OK", "NOTGOOD"];
+    const campus = ["Paris", "Lyon", "Lille", "Remote"];
 
     if (modelUser.count() !== 0) {
       await modelUser.deleteMany();
@@ -55,6 +57,7 @@ module.exports.createUser = async function () {
       const citiesRandom = Math.floor(Math.random() * cities.length);
       const picturesRandom = Math.floor(Math.random() * pictures.length);
       const moodsRandom = Math.floor(Math.random() * moods.length);
+      const campusRandom = Math.floor(Math.random() * campus.length);
 
       if (i >= 0 && i < 5) {
         role = 'SUPERADMIN';
@@ -71,6 +74,7 @@ module.exports.createUser = async function () {
         lastname: lastname,
         town: cities[citiesRandom],
         mood: moods[moodsRandom],
+        campus: campus[campusRandom],
         email: email,
         picture: pictures[picturesRandom],
         role: role,

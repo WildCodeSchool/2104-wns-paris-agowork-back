@@ -36,7 +36,7 @@ export class UserInput implements Partial<User> {
   @Field(() => String)
   password!: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   campus!: Ref<Campus, string>
 }
 
@@ -46,6 +46,6 @@ export class MoodInput implements Partial<User> {
   @IsEmail()
   email!: string;
 
-  @Field(() => Mood)
+  @Field(() => Mood, { nullable: true })
   mood!: Mood;
 }

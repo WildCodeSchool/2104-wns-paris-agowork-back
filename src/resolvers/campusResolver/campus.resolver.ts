@@ -13,7 +13,7 @@ export default class CampusResolver {
 
   @Query(() => [Campus])
   async getCampus(): Promise<Campus[]> {
-    const campus = await CampusModel.find().exec();
+    const campus = await CampusModel.find().sort({updatedAt: -1}).exec();
     return campus;
   }
 }

@@ -17,10 +17,10 @@ const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
 export default class UserResolver {
-  // @Authorized()
+  @Authorized(["ADMIN", "SUPERADMIN"])
   @Query(() => [User])
   async getAllUsers(): Promise<User[]> {
-    const users = await UserModel.find().exec();
+    const users = await UserModel.find().sort({updatedAt: -1}).exec();
     return users;
   }
 
@@ -33,7 +33,7 @@ export default class UserResolver {
     return user;
   }
 
-  // @Authorized(["ADMIN", "SUPERADMIN"])
+  @Authorized(["ADMIN", "SUPERADMIN"])
   @Mutation(() => User)
   async createUser(@Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);

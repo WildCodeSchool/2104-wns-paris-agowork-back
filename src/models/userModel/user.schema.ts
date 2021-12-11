@@ -26,20 +26,20 @@ export class User {
   @Prop({ enum: Role, type: String })
   role!: Role;
 
-  @Field(() => Mood)
+  @Field(() => Mood, { nullable: true })
   @Prop({ enum: Mood, type: String })
   mood!: Mood;
 
   @Field()
-  @Prop({ trim: true, required: true })
+  @Prop({ trim: true, required: true, isUnique: false })
   firstname!: string;
 
   @Field()
-  @Prop({ trim: true, required: true })
+  @Prop({ trim: true, required: true, isUnique: false })
   lastname!: string;
 
   @Field()
-  @Prop({ trim: true, required: true })
+  @Prop({ trim: true, required: true, isUnique: true })
   email!: string;
 
   @Prop({ trim: true, required: true })
@@ -53,7 +53,7 @@ export class User {
   @Prop({ trim: true, required: false })
   picture?: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   @Prop({ ref: () => Campus, type: () => String })
   public campus!: Ref<Campus, string>
 }
