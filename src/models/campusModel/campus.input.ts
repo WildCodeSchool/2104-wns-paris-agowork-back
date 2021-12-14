@@ -6,9 +6,9 @@ export class CampusInput implements Partial<Campus> {
   @Field({ nullable: false })
   name!: string;
 
-  @Field()
+  @Field({ nullable: true })
   address!: string;
 
-  @Field()
+  @Field({ nullable: true })
   phone!: string;
 }

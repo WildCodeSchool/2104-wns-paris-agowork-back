@@ -23,7 +23,7 @@ export class User {
   isActive!: boolean;
 
   @Field(() => Role)
-  @Prop({ enum: Role, type: String })
+  @Prop({ enum: Role, type: String, required: true })
   role!: Role;
 
   @Field(() => Mood, { nullable: true })
@@ -31,15 +31,15 @@ export class User {
   mood!: Mood;
 
   @Field()
-  @Prop({ trim: true, required: true, isUnique: false })
+  @Prop({ trim: true, required: true, unique: false })
   firstname!: string;
 
   @Field()
-  @Prop({ trim: true, required: true, isUnique: false })
+  @Prop({ trim: true, required: true, unique: false })
   lastname!: string;
 
   @Field()
-  @Prop({ trim: true, required: true, isUnique: true })
+  @Prop({ trim: true, required: true, unique: true })
   email!: string;
 
   @Prop({ trim: true, required: true })
