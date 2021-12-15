@@ -14,6 +14,7 @@ import { UserInput } from "../../models/userModel/user.input";
 import { Role } from "../../models/userModel/role.enum";
 import { Context } from "../../utils/context.interface";
 import { CampusModel } from "../../models/campusModel/campus.schema";
+import { Mood, MoodModel } from "../../models/moodModel/mood.schema";
 const { getToken } = require("../../Utils/security");
 
 @Resolver(User)
@@ -29,7 +30,7 @@ export default class UserResolver {
   @Query(() => User)
   async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
     const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail });
-    if (!user) throw new Error("user not found");
+    if (!user) throw new Error("Aucun utilisateur trouvé");
     console.log(user);
     return user;
   }
@@ -39,7 +40,9 @@ export default class UserResolver {
   async createUser(@Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);
     const campus = await CampusModel.findById({ _id: input.campus }).exec();
+    const mood = await MoodModel.findById({ _id: "61ba24253b74a6001ac83262" }).exec();
     if (!campus) throw new Error('Campus introuvable');
+    if (!mood) throw new Error('Mood introuvable');
     const body = {
       firstname: input.firstname,
       lastname: input.lastname,
@@ -48,10 +51,12 @@ export default class UserResolver {
       picture: input.picture || undefined,
       role: input.role,
       campus: campus.id,
+      mood: mood.id,
       password: hashedPassword,
     };
     let user = await(await UserModel.create(body)).save();
     user = await user.populate('campus').populate('mood').execPopulate();
+    console.log(user);
     return user;
   }
 
