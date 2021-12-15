@@ -23,7 +23,6 @@ module.exports.createUser = async function () {
         type: String,
         unique: true,
       },
-      mood: String,
       town: String,
       picture: String,
       role: String,
@@ -39,7 +38,6 @@ module.exports.createUser = async function () {
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
       "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"];
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
-    const moods = ["GREAT", "GOOD", "OK", "NOTGOOD"];
     const campus = ["61b87be966e6b5001aefd6c6", "61b9dbaf81d4c100fa2ece64"];
 
     if (modelUser.count() !== 0) {
@@ -57,7 +55,6 @@ module.exports.createUser = async function () {
       email = "email" + [i] + "@gmail.com";
       const citiesRandom = Math.floor(Math.random() * cities.length);
       const picturesRandom = Math.floor(Math.random() * pictures.length);
-      const moodsRandom = Math.floor(Math.random() * moods.length);
       const campusRandom = Math.floor(Math.random() * campus.length);
 
       if (i >= 0 && i < 5) {
@@ -74,7 +71,6 @@ module.exports.createUser = async function () {
         firstname: firstname,
         lastname: lastname,
         town: cities[citiesRandom],
-        mood: moods[moodsRandom],
         campus: campus[campusRandom],
         email: email,
         picture: pictures[picturesRandom],

@@ -3,9 +3,9 @@ import { Mood } from "./mood.schema";
 
 @InputType()
 export class MoodInput implements Partial<Mood> {
-  @Field({ nullable: false })
+  @Field(() => String, { nullable: false })
   name!: string;
 
-  @Field({ nullable: false })
+  @Field(() => String, { nullable: false })
   icon!: string;
 }

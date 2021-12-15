@@ -10,11 +10,11 @@ export class Mood {
   id!: string;
 
   @Field(() => String, { nullable: false })
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   name!: string;
 
   @Field(() => String, { nullable: false })
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   icon!: string;
 }
 

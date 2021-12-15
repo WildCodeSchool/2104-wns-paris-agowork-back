@@ -6,7 +6,7 @@ import {
 } from "@typegoose/typegoose";
 import { Role } from "./role.enum";
 import { Campus } from "../campusModel/campus.schema";
-import { Mood } from "./moodModel/mood.schema";
+import { Mood } from "../moodModel/mood.schema";
 
 @ObjectType()
 export class User {

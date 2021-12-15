@@ -12,7 +12,7 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../../models/userModel/user.schema";
 import { UserInput } from "../../models/userModel/user.input";
 import { Role } from "../../models/userModel/role.enum";
-import { Context } from "../../models/userModel/context.interface";
+import { Context } from "../../utils/context.interface";
 import { CampusModel } from "../../models/campusModel/campus.schema";
 const { getToken } = require("../../Utils/security");
 
@@ -21,7 +21,7 @@ export default class UserResolver {
   // @Authorized(["ADMIN", "SUPERADMIN"])
   @Query(() => [User])
   async getAllUsers(): Promise<User[]> {
-    const users = await UserModel.find().sort({updatedAt: -1}).populate('campus').exec();
+    const users = await UserModel.find().sort({updatedAt: -1}).populate('campus').populate('mood').exec();
     return users;
   }
 
@@ -51,7 +51,7 @@ export default class UserResolver {
       password: hashedPassword,
     };
     let user = await(await UserModel.create(body)).save();
-    user = await user.populate('campus').execPopulate();
+    user = await user.populate('campus').populate('mood').execPopulate();
     return user;
   }
 
