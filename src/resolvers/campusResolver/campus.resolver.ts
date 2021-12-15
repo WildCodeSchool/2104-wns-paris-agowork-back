@@ -1,4 +1,4 @@
-import { Resolver, Query, Arg, Mutation } from "type-graphql";
+import { Resolver, Query, Arg, Mutation, Authorized, ID } from "type-graphql";
 import { CampusInput } from "../../models/campusModel/campus.input";
 import { Campus, CampusModel } from "../../models/campusModel/campus.schema";
 
@@ -14,6 +14,14 @@ export default class CampusResolver {
   @Query(() => [Campus])
   async getCampus(): Promise<Campus[]> {
     const campus = await CampusModel.find().sort({updatedAt: -1}).exec();
+    return campus;
+  }
+
+  @Authorized(["ADMIN", "SUPERADMIN"])
+  @Mutation(() => Campus, { nullable: true })
+  public async deleteCampus(@Arg("id", () => ID) id: string) {
+    const campus = await CampusModel.findByIdAndDelete(id);
+    if (!campus) throw new Error('Aucun campus ne correspond à la demande');
     return campus;
   }
 }

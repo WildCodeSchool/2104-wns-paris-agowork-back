@@ -5,6 +5,7 @@ import {
   Mutation,
   Authorized,
   Ctx,
+  ID,
 } from "type-graphql";
 import { User } from "../../models/userModel/user.schema";
 import bcrypt from "bcryptjs";
@@ -80,9 +81,9 @@ export default class UserResolver {
 
   @Authorized(["ADMIN", "SUPERADMIN"])
   @Mutation(() => User, { nullable: true })
-  public async deleteUser(@Arg("id", () => String) id: string) {
-    const user = await UserModel.findById(id);
-    await UserModel.deleteOne({ id: id });
+  public async deleteUser(@Arg("id", () => ID) id: string) {
+    const user = await UserModel.findByIdAndDelete(id);
+    if (!user) throw new Error('Aucun user ne correspond à la demande');
     return user;
   }
 }
