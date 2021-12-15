@@ -36,8 +36,8 @@ export class UserInput implements Partial<User> {
   @Field(() => String)
   password!: string;
 
-  @Field(() => String, { nullable: true })
-  campus!: Ref<Campus, string>
+  @Field(() => ID, { nullable: true })
+  campus!: Ref<Campus>
 }
 
 @InputType()

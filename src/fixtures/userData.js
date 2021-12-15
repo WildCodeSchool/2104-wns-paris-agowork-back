@@ -2,6 +2,7 @@
 // node -e 'require(\"./src/Fixtures/userData.js\").createUser()'
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
+const { ID } = require("type-graphql");
 require("dotenv").config();
 
 module.exports.createUser = async function () {
@@ -27,7 +28,7 @@ module.exports.createUser = async function () {
       picture: String,
       role: String,
       password: String,
-      campus: String
+      campus: String,
     }))
 
     const password = "password";
@@ -39,7 +40,7 @@ module.exports.createUser = async function () {
       "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"];
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
     const moods = ["GREAT", "GOOD", "OK", "NOTGOOD"];
-    const campus = ["Paris", "Lyon", "Lille", "Remote"];
+    const campus = ["61b87be966e6b5001aefd6c6", "61b9dbaf81d4c100fa2ece64"];
 
     if (modelUser.count() !== 0) {
       await modelUser.deleteMany();
