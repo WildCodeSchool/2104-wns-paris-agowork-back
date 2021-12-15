@@ -5,9 +5,8 @@ import {
   Ref,
 } from "@typegoose/typegoose";
 import { Role } from "./role.enum";
-import { Mood } from "./mood.enum";
 import { Campus } from "../campusModel/campus.schema";
-import { ObjectId } from "mongoose";
+import { Mood } from "./moodModel/mood.schema";
 
 @ObjectType()
 export class User {
@@ -25,10 +24,6 @@ export class User {
   @Field(() => Role)
   @Prop({ enum: Role, type: String, required: true })
   role!: Role;
-
-  @Field(() => Mood, { nullable: true })
-  @Prop({ enum: Mood, type: String })
-  mood!: Mood;
 
   @Field()
   @Prop({ trim: true, required: true, unique: false })
@@ -56,6 +51,10 @@ export class User {
   @Field(() => Campus, { nullable: true })
   @Prop({ ref: () => Campus, type: () => ID})
   public campus!: Ref<Campus>
+
+  @Field(() => Mood, { nullable: true })
+  @Prop({ ref: () => Mood, type: () => ID})
+  public mood!: Ref<Mood>
 }
 
 export const UserModel = getModelForClass(User, {

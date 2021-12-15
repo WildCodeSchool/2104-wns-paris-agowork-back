@@ -3,7 +3,6 @@ import { IsEmail, Length } from "class-validator";
 import { Field, ID, InputType } from "type-graphql";
 import { IsEmailAlreadyExist } from "../../utils/emailVerificator";
 import { Campus } from "../campusModel/campus.schema";
-import { Mood } from "./mood.enum";
 import { Role } from "./role.enum";
 import { User } from "./user.schema";
 
@@ -38,14 +37,4 @@ export class UserInput implements Partial<User> {
 
   @Field(() => ID, { nullable: true })
   campus!: Ref<Campus>
-}
-
-@InputType()
-export class MoodInput implements Partial<User> {
-  @Field(() => String)
-  @IsEmail()
-  email!: string;
-
-  @Field(() => Mood, { nullable: true })
-  mood!: Mood;
 }
