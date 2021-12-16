@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from "type-graphql";
 import { Prop, getModelForClass } from "@typegoose/typegoose";
-import { IsValidated } from "./AchievmentEnum";
+import { IsValidated } from "./achievment.enum";
 
 @ObjectType()
 export class Course {

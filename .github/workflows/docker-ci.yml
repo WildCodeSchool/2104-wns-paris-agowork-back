@@ -32,16 +32,7 @@ jobs:
           context: ./
           file: ./Dockerfile
           push: true
-          tags: julienwillette/agowork-back:latest
+          tags: oceanekl/agowork:latest
       -
         name: Image digest
         run: echo ${{ steps.docker_build.outputs.digest }}
-  test-back:
-    runs-on: ubuntu-latest
-    steps:
-      - 
-        name: Check out code
-        uses: actions/checkout@v2
-      -
-        name: run tests for 2104-wns-paris-agowork-back
-        run: npm install && npm run test
