@@ -9,16 +9,15 @@ export const authenticationChecker =
     return authenticatedUserRole !== undefined;
   }
   // there are some roles defined now
-
+  
   if (!authenticatedUserRole) {
     // and if no user, restrict access
     return false;
   }
-  if (roles.includes(authenticatedUserRole)) {
+  if (Object.values(roles).includes(authenticatedUserRole)) {
     // grant access if the roles overlap
     return true;
   }
-
   // no roles matched, restrict access
   return false;
 };
