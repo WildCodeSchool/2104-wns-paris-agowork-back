@@ -24,17 +24,17 @@ export default class MoodResolver {
     return mood;
   }
 
-  @Mutation(() => Mood)
-  public async updateMood(
-    @Arg("input") input: MoodInput,
-    @Ctx() ctx: Context,
-  ): Promise<object | null> {
-    console.log(input);
-    const mood = await UserModel.findOneAndUpdate({email: input.email}, input, {
-      new: true,
-    });
-    return mood;
-  }
+  // @Mutation(() => Mood)
+  // public async updateMood(
+  //   @Arg("input") input: MoodInput,
+  //   @Ctx() ctx: Context,
+  // ): Promise<object | null> {
+  //   console.log(input);
+  //   const mood = await UserModel.findOneAndUpdate({email: input.email}, input, {
+  //     new: true,
+  //   });
+  //   return mood;
+  // }
 
   @Query(() => [User])
   public async getAllStudentsByMood(): Promise<User[]> {

@@ -15,7 +15,7 @@ import { Role } from "../../models/userModel/role.enum";
 import { Context } from "../../utils/context.interface";
 import { CampusModel } from "../../models/campusModel/campus.schema";
 import { Mood, MoodModel } from "../../models/moodModel/mood.schema";
-const { getToken } = require("../../Utils/security");
+const { getToken } = require("../../utils/security");
 
 @Resolver(User)
 export default class UserResolver {
