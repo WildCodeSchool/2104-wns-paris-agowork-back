@@ -1,7 +1,7 @@
 import { Ref } from "@typegoose/typegoose";
 import { IsEmail, Length } from "class-validator";
 import { Field, ID, InputType } from "type-graphql";
-import { IsEmailAlreadyExist } from "../../utils/emailVerificator";
+import { IsEmailAlreadyExist } from "../../utilitaire/emailVerificator";
 import { Campus } from "../campusModel/campus.schema";
 import { Mood } from "../moodModel/mood.schema";
 import { Role } from "./role.enum";
