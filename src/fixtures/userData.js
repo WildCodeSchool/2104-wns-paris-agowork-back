@@ -28,6 +28,7 @@ module.exports.createUser = async function () {
       role: String,
       password: String,
       campus: String,
+      mood: String,
     }))
 
     const password = "password";
@@ -38,7 +39,8 @@ module.exports.createUser = async function () {
       "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=987&q=80",
       "https://images.unsplash.com/photo-1607746882042-944635dfe10e?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"];
     const cities = ["Paris", "Londres", "Madrid", "Moscou", "New York", "Long Beach", "Los Angeles", "Marseille", "Nice", "Grenoble", "Brest"];
-    const campus = ["61b87be966e6b5001aefd6c6", "61b9dbaf81d4c100fa2ece64"];
+    const campus = ["61bb16172591960024a65c37", "61b87be966e6b5001aefd6c6", "61b86357ae43b1001a4a6174", "61b3e1a961959c00195f4b7e"];
+    const moods = ["61bb2c160fd07b0019ecf2db", "61ba71c4ba5150001ae8621c", "61ba24253b74a6001ac83262", "61bb36ee3c1830001aae2171"]
 
     if (modelUser.count() !== 0) {
       await modelUser.deleteMany();
@@ -56,6 +58,7 @@ module.exports.createUser = async function () {
       const citiesRandom = Math.floor(Math.random() * cities.length);
       const picturesRandom = Math.floor(Math.random() * pictures.length);
       const campusRandom = Math.floor(Math.random() * campus.length);
+      const moodRandom = Math.floor(Math.random() * moods.length);
 
       if (i >= 0 && i < 5) {
         role = 'SUPERADMIN';
@@ -75,6 +78,7 @@ module.exports.createUser = async function () {
         email: email,
         picture: pictures[picturesRandom],
         role: role,
+        mood: moods[moodRandom],
         password: hashedPassword,
       };
       const user = new modelUser(body);

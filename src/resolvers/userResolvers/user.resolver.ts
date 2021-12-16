@@ -12,14 +12,14 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../../models/userModel/user.schema";
 import { UserInput } from "../../models/userModel/user.input";
 import { Role } from "../../models/userModel/role.enum";
-import { Context } from "../../utils/context.interface";
+import { Context } from "../../utilitaire/context.interface";
 import { CampusModel } from "../../models/campusModel/campus.schema";
 import { Mood, MoodModel } from "../../models/moodModel/mood.schema";
-const { getToken } = require("../../Utils/security");
+import { getToken } from "../../utilitaire/security";
 
 @Resolver(User)
 export default class UserResolver {
-  // @Authorized(["ADMIN", "SUPERADMIN"])
+  @Authorized(["ADMIN", "SUPERADMIN"])
   @Query(() => [User])
   async getAllUsers(): Promise<User[]> {
     const users = await UserModel.find().sort({updatedAt: -1}).populate('campus').populate('mood').exec();
@@ -31,11 +31,10 @@ export default class UserResolver {
   async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
     const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail });
     if (!user) throw new Error("Aucun utilisateur trouvé");
-    console.log(user);
     return user;
   }
 
-  // @Authorized(["ADMIN", "SUPERADMIN"])
+  @Authorized(["ADMIN", "SUPERADMIN"])
   @Mutation(() => User)
   async createUser(@Arg("input") input: UserInput): Promise<User> {
     const hashedPassword = await bcrypt.hashSync(input.password, 12);
@@ -56,7 +55,6 @@ export default class UserResolver {
     };
     let user = await(await UserModel.create(body)).save();
     user = await user.populate('campus').populate('mood').execPopulate();
-    console.log(user);
     return user;
   }
 
