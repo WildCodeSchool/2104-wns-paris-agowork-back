@@ -16,17 +16,19 @@ export default class MoodResolver {
     const mood = await MoodModel.find().sort({updatedAt: -1}).exec();
     return mood;
   }
-
-  @Mutation(() => Mood)
-  public async updateMood(
-    @Arg("input") input: MoodInput,
-    @Ctx() ctx: Context,
+  
+  @Mutation(() => User)
+  public async updateUserMood(
+    @Arg("id", () => ID) id: string,
+    @Arg("email", () => String) email: string,
   ): Promise<object | null> {
-    console.log(input);
-    const mood = await UserModel.findOneAndUpdate({email: ctx.authenticatedUserEmail}, input, {
+    console.log(email);
+    console.log(id)
+    const updatedUser = await UserModel.findOneAndUpdate({ email: email }, {mood: id}, {
       new: true,
-    });
-    return mood;
+    })
+    await updatedUser?.populate('mood').execPopulate();
+    return updatedUser;
   }
 
   @Query(() => [User])
