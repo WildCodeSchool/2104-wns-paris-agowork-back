@@ -1,7 +1,7 @@
 import { Resolver, Query, Arg, Mutation, Ctx, Authorized, ID } from "type-graphql";
 import { User } from "../../models/userModel/user.schema";
 import { UserModel } from "../../models/userModel/user.schema";
-import { Context } from "../../utilitaire/context.interface";
+import { Context } from "../../utils/context.interface";
 import { Role } from "../../models/userModel/role.enum";
 import { MoodInput } from "../../models/moodModel/mood.input";
 import { Mood, MoodModel } from "../../models/moodModel/mood.schema";

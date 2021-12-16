@@ -3,7 +3,7 @@ import bcrypt from "bcryptjs";
 import { User } from "../../models/userModel/user.schema";
 import { UserModel } from "../../models/userModel/user.schema";
 import { ApolloError, AuthenticationError } from "apollo-server";
-import { getToken } from "../../utilitaire/security";
+import { getToken } from "../../utils/security";
 
 @Resolver()
 export default class LoginResolver {

@@ -2,7 +2,7 @@ import "reflect-metadata";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { authenticationChecker } from "./utilitaire/authChecker";
+import { authenticationChecker } from "./utils/authChecker";
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET_JWT;

@@ -12,7 +12,7 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../../models/userModel/user.schema";
 import { UserInput } from "../../models/userModel/user.input";
 import { Role } from "../../models/userModel/role.enum";
-import { Context } from "../../utilitaire/context.interface";
+import { Context } from "../../utils/context.interface";
 import { CampusModel } from "../../models/campusModel/campus.schema";
 import { Mood, MoodModel } from "../../models/moodModel/mood.schema";
 const { getToken } = require("../../utils/security");
