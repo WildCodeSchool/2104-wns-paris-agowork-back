@@ -2,7 +2,7 @@ import "reflect-metadata";
 import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
-import { authenticationChecker } from "./utils/authChecker";
+import { authenticationChecker } from "./utilitaire/authChecker";
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET_JWT;
@@ -27,7 +27,7 @@ export default async function initServer(): Promise<void> {
               authenticatedUserRole: payload.userRole,
               authenticatedUserFirstname: payload.userFirstname,
               authenticatedUserLastname: payload.userLastname,
-              authenticatedUserTown: payload.userTown,
+              authenticatedUserCampus: payload.userCampus,
             };
           } catch (err) {}
         }
