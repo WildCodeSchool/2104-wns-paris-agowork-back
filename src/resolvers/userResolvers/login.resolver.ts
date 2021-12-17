@@ -32,6 +32,7 @@ export default class LoginResolver {
         userEmail: user.email,
         userRole: user.role,
         userCampus: campus?.name,
+        userMood: mood?.icon,
         userFirstname: user.firstname,
         userLastname: user.lastname,
       };

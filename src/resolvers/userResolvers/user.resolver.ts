@@ -29,8 +29,9 @@ export default class UserResolver {
   // @Authorized()
   @Query(() => User)
   async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
-    const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail });
+    const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail }).populate("campus").populate("mood").exec();
     if (!user) throw new Error("Aucun utilisateur trouvé");
+    console.log(user);
     return user;
   }
 
