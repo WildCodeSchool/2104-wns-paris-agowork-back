@@ -22,12 +22,11 @@ export default class MoodResolver {
     @Arg("id", () => ID) id: string,
     @Arg("email", () => String) email: string,
   ): Promise<object | null> {
-    console.log(email);
-    console.log(id)
     const updatedUser = await UserModel.findOneAndUpdate({ email: email }, {mood: id}, {
       new: true,
     })
     await updatedUser?.populate('mood').execPopulate();
+    console.log(updatedUser)
     return updatedUser;
   }
 

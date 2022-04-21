@@ -15,10 +15,6 @@ export class User {
 
   @Field(() => String, { nullable: true })
   @Prop({ required: false })
-  token?: string;
-
-  @Field(() => String, { nullable: true })
-  @Prop({ required: false })
   isActive!: boolean;
 
   @Field(() => Role)
@@ -43,6 +39,10 @@ export class User {
   @Field(() => String, { nullable: true })
   @Prop({ trim: true, required: false })
   town?: string;
+
+  @Field(() => Boolean, { nullable: true })
+  @Prop({ required: false })
+  needHelp?: boolean;
 
   @Field(() => String, { nullable: true })
   @Prop({ trim: true, required: false })

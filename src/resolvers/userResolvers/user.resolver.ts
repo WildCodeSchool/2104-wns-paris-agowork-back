@@ -19,43 +19,11 @@ import { getToken } from "../../utilitaire/security";
 
 @Resolver(User)
 export default class UserResolver {
-  @Authorized(["ADMIN", "SUPERADMIN"])
-  @Query(() => [User])
-  async getAllUsers(): Promise<User[]> {
-    const users = await UserModel.find().sort({updatedAt: -1}).populate('campus').populate('mood').exec();
-    return users;
-  }
-
-  // @Authorized()
   @Query(() => User)
   async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
     const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail }).populate("campus").populate("mood").exec();
     if (!user) throw new Error("Aucun utilisateur trouvé");
     console.log(user);
-    return user;
-  }
-
-  @Authorized(["ADMIN", "SUPERADMIN"])
-  @Mutation(() => User)
-  async createUser(@Arg("input") input: UserInput): Promise<User> {
-    const hashedPassword = await bcrypt.hashSync(input.password, 12);
-    const campus = await CampusModel.findById({ _id: input.campus }).exec();
-    const mood = await MoodModel.findById({ _id: "61ba24253b74a6001ac83262" }).exec();
-    if (!campus) throw new Error('Campus introuvable');
-    if (!mood) throw new Error('Mood introuvable');
-    const body = {
-      firstname: input.firstname,
-      lastname: input.lastname,
-      town: input.town,
-      email: input.email,
-      picture: input.picture || undefined,
-      role: input.role,
-      campus: campus.id,
-      mood: mood.id,
-      password: hashedPassword,
-    };
-    let user = await(await UserModel.create(body)).save();
-    user = await user.populate('campus').populate('mood').execPopulate();
     return user;
   }
 
@@ -83,10 +51,41 @@ export default class UserResolver {
   }
 
   @Authorized(["ADMIN", "SUPERADMIN"])
+  @Mutation(() => User)
+  async createUser(@Arg("input") input: UserInput): Promise<User> {
+    const hashedPassword = await bcrypt.hashSync(input.password, 12);
+    const campus = await CampusModel.findById({ _id: input.campus }).exec();
+    const mood = await MoodModel.findById({ _id: "61ba24253b74a6001ac83262" }).exec();
+    if (!campus) throw new Error('Campus introuvable');
+    if (!mood) throw new Error('Mood introuvable');
+    const body = {
+      firstname: input.firstname,
+      lastname: input.lastname,
+      town: input.town,
+      email: input.email,
+      picture: input.picture || undefined,
+      role: input.role,
+      campus: campus.id,
+      mood: mood.id,
+      password: hashedPassword,
+    };
+    let user = await(await UserModel.create(body)).save();
+    user = await user.populate('campus').populate('mood').execPopulate();
+    return user;
+  }
+
+  @Authorized(["ADMIN", "SUPERADMIN"])
   @Mutation(() => User, { nullable: true })
   public async deleteUser(@Arg("id", () => ID) id: string) {
     const user = await UserModel.findByIdAndDelete(id);
     if (!user) throw new Error('Aucun user ne correspond à la demande');
     return user;
+  }
+
+  @Authorized(["ADMIN", "SUPERADMIN"])
+  @Query(() => [User])
+  async getAllUsers(): Promise<User[]> {
+    const users = await UserModel.find().sort({updatedAt: -1}).populate('campus').populate('mood').exec();
+    return users;
   }
 }
