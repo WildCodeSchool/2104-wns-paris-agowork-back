@@ -31,12 +31,12 @@ export default class LoginResolver {
 
     if (user && bcrypt.compareSync(password, user.password)) {
       const payload = {
-        userEmail: user.email,
-        userRole: user.role,
-        userCampus: campus?.name,
-        userMood: mood?.icon,
-        userFirstname: user.firstname,
-        userLastname: user.lastname,
+        email: user.email,
+        role: user.role,
+        campus: campus?.name,
+        mood: mood?.icon,
+        firstname: user.firstname,
+        lastname: user.lastname,
       };
 
       return { token : getToken(payload)};
