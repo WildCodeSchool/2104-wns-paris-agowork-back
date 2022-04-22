@@ -12,7 +12,7 @@ import bcrypt from "bcryptjs";
 import { UserModel } from "../../models/userModel/user.schema";
 import { UserInput } from "../../models/userModel/user.input";
 import { Role } from "../../models/userModel/role.enum";
-import { Context } from "../../utilitaire/context.interface";
+import { Context } from "../../utilitaire/context.type";
 import { CampusModel } from "../../models/campusModel/campus.schema";
 import { Mood, MoodModel } from "../../models/moodModel/mood.schema";
 import { getToken } from "../../utilitaire/security";
@@ -21,13 +21,12 @@ import { getToken } from "../../utilitaire/security";
 export default class UserResolver {
   @Query(() => User)
   async getLoggedUserByEmail(@Ctx() ctx: Context): Promise<User> {
-    const user = await UserModel.findOne({ email: ctx.authenticatedUserEmail }).populate("campus").populate("mood").exec();
+    const user = await UserModel.findOne({ email: ctx.email }).populate("campus").populate("mood").exec();
     if (!user) throw new Error("Aucun utilisateur trouvé");
-    console.log(user);
+    
     return user;
   }
 
-  // @Authorized()
   @Mutation(() => User)
   public async updateUser(
     @Arg("id", () => String) id: string,
@@ -78,7 +77,7 @@ export default class UserResolver {
   @Mutation(() => User, { nullable: true })
   public async deleteUser(@Arg("id", () => ID) id: string) {
     const user = await UserModel.findByIdAndDelete(id);
-    if (!user) throw new Error('Aucun user ne correspond à la demande');
+    if (!user) throw new Error('Aucun utilisateur ne correspond à la demande');
     return user;
   }
 

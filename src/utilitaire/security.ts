@@ -25,7 +25,7 @@ export const getToken = (payload: any): string => {
     return token
 }
 
-export const verifyToken = (token: any): Payload => {
+export const verifyToken = (token: string): Payload => {
     const payload = jwt.verify(token, secret) as Payload;
     return payload;
 }
