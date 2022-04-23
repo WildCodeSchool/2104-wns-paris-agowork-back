@@ -39,6 +39,9 @@ export class UserInput implements Partial<User> {
   @Field(() => ID, { nullable: true })
   campus!: Ref<Campus>
 
+  @Field(() => Boolean, { nullable: true })
+  resetPass?: boolean;
+
   @Field(() => ID, { nullable: true })
-  mood!: Ref<Mood>
+  mood?: Ref<Mood>
 }

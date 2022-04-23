@@ -44,6 +44,10 @@ export class User {
   @Prop({ required: false })
   needHelp?: boolean;
 
+  @Field(() => Boolean, { nullable: true })
+  @Prop({ required: false })
+  resetPass?: boolean;
+
   @Field(() => String, { nullable: true })
   @Prop({ trim: true, required: false })
   picture?: string;
@@ -53,8 +57,8 @@ export class User {
   public campus!: Ref<Campus>
 
   @Field(() => Mood, { nullable: true })
-  @Prop({ ref: () => Mood, type: () => ID})
-  public mood!: Ref<Mood>
+  @Prop({ ref: () => Mood, type: () => ID, required: false})
+  public mood?: Ref<Mood>
 }
 
 export const UserModel = getModelForClass(User, {
