@@ -4,6 +4,7 @@ import { Campus, CampusModel } from "../../models/campusModel/campus.schema";
 
 @Resolver(Campus)
 export default class CampusResolver {
+  @Authorized(['ADMIN', 'SUPERADMIN'])
   @Mutation(() => Campus)
   async createCampus(@Arg("input") input: CampusInput): Promise<Campus | null> {
     const campus = new CampusModel(input);
@@ -17,7 +18,7 @@ export default class CampusResolver {
     return campus;
   }
 
-  @Authorized(["ADMIN", "SUPERADMIN"])
+  @Authorized(['ADMIN', 'SUPERADMIN'])
   @Mutation(() => Campus, { nullable: true })
   public async deleteCampus(@Arg("id", () => ID) id: string) {
     const campus = await CampusModel.findByIdAndDelete(id);

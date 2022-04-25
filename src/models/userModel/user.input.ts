@@ -9,16 +9,19 @@ import { User } from "./user.schema";
 
 @InputType()
 export class UserInput implements Partial<User> {
+  @Field(() => ID, { nullable: true })
+  id?: string;
+
   @Field(() => String)
-  @Length(1, 255)
+  @Length(1, 25)
   firstname!: string;
 
   @Field(() => String)
-  @Length(1, 255)
+  @Length(1, 25)
   lastname!: string;
 
   @Field(() => String)
-  @Length(1, 255)
+  @Length(1, 25)
   town!: string;
 
   @Field(() => String, { nullable: true })
@@ -40,5 +43,5 @@ export class UserInput implements Partial<User> {
   campus!: Ref<Campus>
 
   @Field(() => ID, { nullable: true })
-  mood!: Ref<Mood>
+  mood: Ref<Mood>
 }

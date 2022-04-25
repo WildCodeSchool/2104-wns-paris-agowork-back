@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import { ApolloServer } from "apollo-server";
 import { buildSchema } from "type-graphql";
 import { authenticationChecker } from "./utilitaire/authChecker";
+import { Payload, verifyToken } from "./utilitaire/security";
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 const secret = process.env.SECRET_JWT;
@@ -16,21 +17,16 @@ export default async function initServer(): Promise<void> {
         validate: false,
         authChecker: authenticationChecker,
       }),
-      context: ({ req }: any) => {
-        const token = req.headers.authorization;
+      context: ({ req }): Payload => {
+        const token = req?.headers.authorization;
         if (token) {
-          let payload;
           try {
-            payload = jwt.verify(token, secret);
-            return { 
-              authenticatedUserEmail: payload.userEmail, 
-              authenticatedUserRole: payload.userRole,
-              authenticatedUserFirstname: payload.userFirstname,
-              authenticatedUserLastname: payload.userLastname,
-              authenticatedUserCampus: payload.userCampus,
-            };
-          } catch (err) {}
+            return verifyToken(token);
+          } catch (err) {
+            return {};
+          }
         }
+        return {}
       },
     });
 

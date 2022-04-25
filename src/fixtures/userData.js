@@ -1,8 +1,5 @@
-// command to initialize users in database
-// node -e 'require(\"./src/Fixtures/userData.js\").createUser()'
 const bcrypt = require("bcryptjs");
 const mongoose = require("mongoose");
-const { ID } = require("type-graphql");
 require("dotenv").config();
 ObjectId = require('mongodb').ObjectID;
 
@@ -29,7 +26,6 @@ module.exports.createUser = async function () {
       role: String,
       password: String,
       campus: mongoose.Types.ObjectId,
-      mood: mongoose.Types.ObjectId,
     }))
 
     const password = "password";
@@ -80,7 +76,6 @@ module.exports.createUser = async function () {
         email: email,
         picture: pictures[picturesRandom],
         role: role,
-        mood: mongoose.Types.ObjectId("61ba24253b74a6001ac83262"),
         password: hashedPassword,
       };
       const user = new modelUser(body);
