@@ -13,10 +13,6 @@ export class User {
   @Field(() => ID)
   id!: string;
 
-  @Field(() => String, { nullable: true })
-  @Prop({ required: false })
-  isActive!: boolean;
-
   @Field(() => Role)
   @Prop({ enum: Role, type: String, required: true })
   role!: Role;
@@ -40,14 +36,6 @@ export class User {
   @Prop({ trim: true, required: false })
   town?: string;
 
-  @Field(() => Boolean, { nullable: true })
-  @Prop({ required: false })
-  needHelp?: boolean;
-
-  @Field(() => Boolean, { nullable: true })
-  @Prop({ required: false })
-  resetPass?: boolean;
-
   @Field(() => String, { nullable: true })
   @Prop({ trim: true, required: false })
   picture?: string;
@@ -58,7 +46,7 @@ export class User {
 
   @Field(() => Mood, { nullable: true })
   @Prop({ ref: () => Mood, type: () => ID, required: false})
-  public mood?: Ref<Mood>
+  public mood: Ref<Mood>
 }
 
 export const UserModel = getModelForClass(User, {
