@@ -13,14 +13,6 @@ export class User {
   @Field(() => ID)
   id!: string;
 
-  @Field(() => String, { nullable: true })
-  @Prop({ required: false })
-  token?: string;
-
-  @Field(() => String, { nullable: true })
-  @Prop({ required: false })
-  isActive!: boolean;
-
   @Field(() => Role)
   @Prop({ enum: Role, type: String, required: true })
   role!: Role;
@@ -53,8 +45,8 @@ export class User {
   public campus!: Ref<Campus>
 
   @Field(() => Mood, { nullable: true })
-  @Prop({ ref: () => Mood, type: () => ID})
-  public mood!: Ref<Mood>
+  @Prop({ ref: () => Mood, type: () => ID, required: false})
+  public mood: Ref<Mood>
 }
 
 export const UserModel = getModelForClass(User, {

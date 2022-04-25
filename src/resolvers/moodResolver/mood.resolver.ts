@@ -1,7 +1,7 @@
 import { Resolver, Query, Arg, Mutation, Ctx, Authorized, ID } from "type-graphql";
 import { User } from "../../models/userModel/user.schema";
 import { UserModel } from "../../models/userModel/user.schema";
-import { Context } from "../../utilitaire/context.interface";
+import { Context } from "../../utilitaire/context.type";
 import { Role } from "../../models/userModel/role.enum";
 import { MoodInput } from "../../models/moodModel/mood.input";
 import { Mood, MoodModel } from "../../models/moodModel/mood.schema";
@@ -22,8 +22,6 @@ export default class MoodResolver {
     @Arg("id", () => ID) id: string,
     @Arg("email", () => String) email: string,
   ): Promise<object | null> {
-    console.log(email);
-    console.log(id)
     const updatedUser = await UserModel.findOneAndUpdate({ email: email }, {mood: id}, {
       new: true,
     })
@@ -36,7 +34,7 @@ export default class MoodResolver {
     @Ctx() ctx: Context,
   ): Promise<User[]> {
     const role = "STUDENT" as Role ;
-    const campus = await CampusModel.findOne({ name: ctx.authenticatedUserCampus });
+    const campus = await CampusModel.findOne({ name: ctx.campus });
     const campusId = campus?._id;
     const users = await UserModel.find({role, campus: campusId}).limit(10).populate('mood').exec();
     return users;
